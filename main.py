@@ -48,7 +48,7 @@ def target():
     target.shape("circle")
     target.speed(0)
     target.penup()
-    target.goto(random.randint(-100,100), random.randint(-100, 100))
+    target.goto(random.randint(0,100), random.randint(0, 100))
     return target
 
 
@@ -91,10 +91,10 @@ if __name__ == '__main__':
     user = user()
     target = target()
     tryCount = 0
-    oldcount = 0
+    oldcount = -1
     user.goto(0, 0)
-    target.forward(2)
-    t.write("PLAYER : " + player)
+    # target.forward(2)
+    # t.write("PLAYER : " + player)
     while True:
         user.clear()
         screen.onkeypress(move_right, "Right")
@@ -104,7 +104,10 @@ if __name__ == '__main__':
         screen.listen()
         if oldcount != tryCount:
             t.clear()
-            t.write("PLAYER : " + player + "\nSCORE : " +str(tryCount) + "\nPOSITION : " + str(user.position()))
+            t.write("PLAYER : " + player +
+                    "\nSCORE : " +str(tryCount) +
+                    "\nPOSITION : " + str(user.position()) +
+                    "\nTARGET : " + str(target.position()))
 
         oldcount = tryCount
 

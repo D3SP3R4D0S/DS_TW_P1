@@ -51,27 +51,31 @@ def target():
     return target
 
 
-def turn_right():
+def move_right():
     global tryCount
-    tryCount = tryCount + 1
-    mypen.right(10)
+    tryCount += 1
+    mypen.setheading(0)
+    mypen.forward(10)
 
 
-def turn_left():
+def move_left():
     global tryCount
-    tryCount = tryCount + 1
-    mypen.left(10)
+    tryCount += 1
+    mypen.setheading(180)
+    mypen.forward(10)
 
 
-def turn_down():
+def move_up():
     global tryCount
-    tryCount = tryCount + 1
-    mypen.backward(10)
+    tryCount += 1
+    mypen.setheading(90)
+    mypen.forward(10)
 
 
-def turn_up():
+def move_down():
     global tryCount
-    tryCount = tryCount + 1
+    tryCount += 1
+    mypen.setheading(270)
     mypen.forward(10)
 
 
@@ -91,8 +95,8 @@ if __name__ == '__main__':
     target.forward(2)
     while True:
         mypen.clear()
-        screen.onkeypress(turn_right, "Right")
-        screen.onkeypress(turn_left, "Left")
-        screen.onkeypress(turn_up, "Up")
-        screen.onkeypress(turn_down, "Down")
+        screen.onkeypress(move_right, "Right")
+        screen.onkeypress(move_left, "Left")
+        screen.onkeypress(move_up, "Up")
+        screen.onkeypress(move_down, "Down")
         screen.listen()

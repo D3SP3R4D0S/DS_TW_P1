@@ -24,21 +24,22 @@ import random
 def init():
     # 스크린 객체 생성
     screen = t.Screen()
-    screen.setup(100,100)
+    screen.setup(300,300)
     # 스크린 배경색 지정
     screen.bgcolor("white")
     screen.tracer(2)
     return screen
 
 
-def mypen():
+def user():
     # 울타리 그리기
-    mypen = t.Turtle()
-    mypen.penup()
-    mypen.setposition(-100, 100)
-    mypen.pendown()
-    mypen.pensize(3)
-    return mypen
+    turtle = t.Turtle()
+    turtle.shape("turtle")
+    turtle.pendown()
+    turtle.setposition(-100, 100)
+    turtle.penup()
+    turtle.pensize(3)
+    return turtle
 
 
 def target():
@@ -54,29 +55,29 @@ def target():
 def move_right():
     global tryCount
     tryCount += 1
-    mypen.setheading(0)
-    mypen.forward(10)
+    user.setheading(0)
+    user.forward(10)
 
 
 def move_left():
     global tryCount
     tryCount += 1
-    mypen.setheading(180)
-    mypen.forward(10)
+    user.setheading(180)
+    user.forward(10)
 
 
 def move_up():
     global tryCount
     tryCount += 1
-    mypen.setheading(90)
-    mypen.forward(10)
+    user.setheading(90)
+    user.forward(10)
 
 
 def move_down():
     global tryCount
     tryCount += 1
-    mypen.setheading(270)
-    mypen.forward(10)
+    user.setheading(270)
+    user.forward(10)
 
 
 def getname():
@@ -84,17 +85,17 @@ def getname():
     return name
 
 
-
 if __name__ == '__main__':
-    plater = getname()
+    player = getname()
     screen = init()
-    mypen = mypen()
+    user = user()
     target = target()
     tryCount = 0
-    mypen.goto(0, 0)
+    user.goto(0, 0)
     target.forward(2)
+    t.write("PLAYER : " + player)
     while True:
-        mypen.clear()
+        user.clear()
         screen.onkeypress(move_right, "Right")
         screen.onkeypress(move_left, "Left")
         screen.onkeypress(move_up, "Up")

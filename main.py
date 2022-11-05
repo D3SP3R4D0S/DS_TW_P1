@@ -46,28 +46,37 @@ tryCount = 0
 def turn_right():
     global tryCount
     tryCount = tryCount + 1
-    mypen.right(50)
+    mypen.right(10)
 
 def turn_left():
     global tryCount
     tryCount = tryCount + 1
-    mypen.left(50)
+    mypen.left(10)
 
 def turn_down():
     global tryCount
     tryCount = tryCount + 1
-    mypen.backward(50)
+    mypen.backward(10)
 
 def turn_up():
     global tryCount
     tryCount = tryCount + 1
-    mypen.forward(50)
-while True:
-    mypen.goto(0,0)
-    mypen.clear()
-    screen.onkeypress(turn_right, "Right")
-    screen.onkeypress(turn_left, "Left")
-    screen.onkeypress(turn_up, "Up")
-    screen.onkeypress(turn_down, "Down")
-    screen.listen()
+    mypen.forward(10)
+
+def getname():
+    name = t.textinput("터틀게임", "플레이어 이름을 입력하세요")
+    return name
+
+plater = getname()
+
+if __name__ == '__main__':
+    mypen.goto(0, 0)
+
     a1.forward(2)
+    while True:
+        mypen.clear()
+        screen.onkeypress(turn_right, "Right")
+        screen.onkeypress(turn_left, "Left")
+        screen.onkeypress(turn_up, "Up")
+        screen.onkeypress(turn_down, "Down")
+        screen.listen()

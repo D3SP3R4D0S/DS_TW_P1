@@ -19,60 +19,76 @@
 
 import turtle as t
 import random
-# 스크린 객체 생성
-screen = t.Screen()
-screen.setup(100,100)
-# 스크린 배경색 지정
-screen.bgcolor("white")
-screen.tracer(2)
-
-# 울타리 그리기
-mypen = t.Turtle()
-mypen.penup()
-mypen.setposition(-100, 100)
-mypen.pendown()
-mypen.pensize(3)
 
 
-a1 = t.Turtle() #목표지점1
-a1.color("red")
-a1.shape("circle")
-a1.speed(0)
-a1.penup()
-a1.goto(random.randint(-100,100), random.randint(-100, 100))
+def init():
+    # 스크린 객체 생성
+    screen = t.Screen()
+    screen.setup(100,100)
+    # 스크린 배경색 지정
+    screen.bgcolor("white")
+    screen.tracer(2)
+    return screen
 
-tryCount = 0
+
+def mypen():
+    # 울타리 그리기
+    mypen = t.Turtle()
+    mypen.penup()
+    mypen.setposition(-100, 100)
+    mypen.pendown()
+    mypen.pensize(3)
+    return mypen
+
+
+def target():
+    target = t.Turtle() #목표지점1
+    target.color("red")
+    target.shape("circle")
+    target.speed(0)
+    target.penup()
+    target.goto(random.randint(-100,100), random.randint(-100, 100))
+    return target
+
 
 def turn_right():
     global tryCount
     tryCount = tryCount + 1
     mypen.right(10)
 
+
 def turn_left():
     global tryCount
     tryCount = tryCount + 1
     mypen.left(10)
+
 
 def turn_down():
     global tryCount
     tryCount = tryCount + 1
     mypen.backward(10)
 
+
 def turn_up():
     global tryCount
     tryCount = tryCount + 1
     mypen.forward(10)
 
+
 def getname():
     name = t.textinput("터틀게임", "플레이어 이름을 입력하세요")
     return name
 
-plater = getname()
+
 
 if __name__ == '__main__':
+    plater = getname()
+    screen = init()
+    mypen = mypen()
+    target = target()
+    tryCount = 0
     mypen.goto(0, 0)
-
-    a1.forward(2)
+    target.forward(2)
     while True:
         mypen.clear()
         screen.onkeypress(turn_right, "Right")

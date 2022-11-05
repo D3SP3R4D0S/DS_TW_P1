@@ -21,7 +21,7 @@ import turtle as t
 import random
 # 스크린 객체 생성
 screen = t.Screen()
-screen.setup(500,500)
+screen.setup(100,100)
 # 스크린 배경색 지정
 screen.bgcolor("white")
 screen.tracer(2)
@@ -29,7 +29,7 @@ screen.tracer(2)
 # 울타리 그리기
 mypen = t.Turtle()
 mypen.penup()
-mypen.setposition(-500, 500)
+mypen.setposition(-100, 100)
 mypen.pendown()
 mypen.pensize(3)
 
@@ -39,7 +39,7 @@ a1.color("red")
 a1.shape("circle")
 a1.speed(0)
 a1.penup()
-a1.goto(random.randint(-500,500), random.randint(-500, 500))
+a1.goto(random.randint(-100,100), random.randint(-100, 100))
 
 tryCount = 0
 

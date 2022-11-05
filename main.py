@@ -18,9 +18,10 @@
 # 제출자료 : 아이디어에 대한 간단한 정리문서(word 혹은 hwp), 프로그램코드
 
 import turtle as t
-
+import random
 # 스크린 객체 생성
 screen = t.Screen()
+screen.setup(100,100)
 # 스크린 배경색 지정
 screen.bgcolor("white")
 screen.tracer(2)
@@ -31,3 +32,42 @@ mypen.penup()
 mypen.setposition(-100, 100)
 mypen.pendown()
 mypen.pensize(3)
+
+
+a1 = t.Turtle() #목표지점1
+a1.color("red")
+a1.shape("circle")
+a1.speed(0)
+a1.penup()
+a1.goto(random.randint(-100,100), random.randint(-100, 100))
+
+tryCount = 0
+
+def turn_right():
+    global tryCount
+    tryCount = tryCount + 1
+    mypen.right(50)
+
+def turn_left():
+    global tryCount
+    tryCount = tryCount + 1
+    mypen.left(50)
+
+def turn_down():
+    global tryCount
+    tryCount = tryCount + 1
+    mypen.backward(50)
+
+def turn_up():
+    global tryCount
+    tryCount = tryCount + 1
+    mypen.forward(50)
+while True:
+    mypen.goto(0,0)
+    mypen.clear()
+    screen.onkeypress(turn_right, "Right")
+    screen.onkeypress(turn_left, "Left")
+    screen.onkeypress(turn_up, "Up")
+    screen.onkeypress(turn_down, "Down")
+    screen.listen()
+    a1.forward(2)

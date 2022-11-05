@@ -31,3 +31,5 @@ mypen.penup()
 mypen.setposition(-100, 100)
 mypen.pendown()
 mypen.pensize(3)
+while True:
+    mypen.goto(0,0)

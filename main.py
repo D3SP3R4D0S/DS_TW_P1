@@ -104,7 +104,7 @@ if __name__ == '__main__':
         screen.listen()
         if oldcount != tryCount:
             t.clear()
-            t.write("PLAYER : " + player + "\nSCORE : " +str(tryCount))
+            t.write("PLAYER : " + player + "\nSCORE : " +str(tryCount) + "\nPOSITION : " + str(user.position()))
 
         oldcount = tryCount
 

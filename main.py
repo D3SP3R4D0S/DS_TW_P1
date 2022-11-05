@@ -91,6 +91,7 @@ if __name__ == '__main__':
     user = user()
     target = target()
     tryCount = 0
+    oldcount = 0
     user.goto(0, 0)
     target.forward(2)
     t.write("PLAYER : " + player)
@@ -101,3 +102,9 @@ if __name__ == '__main__':
         screen.onkeypress(move_up, "Up")
         screen.onkeypress(move_down, "Down")
         screen.listen()
+        if oldcount != tryCount:
+            t.clear()
+            t.write("PLAYER : " + player + "\nSCORE : " +str(tryCount))
+
+        oldcount = tryCount
+

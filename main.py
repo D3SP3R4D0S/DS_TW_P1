@@ -102,6 +102,16 @@ if __name__ == '__main__':
         screen.onkeypress(move_up, "Up")
         screen.onkeypress(move_down, "Down")
         screen.listen()
+        if user.xcor() > 100:
+            user.setx(100)
+        elif user.xcor() < 0:
+            user.setx(0)
+
+        if user.ycor() > 100:
+            user.sety(100)
+        elif user.ycor() < 0:
+            user.sety(0)
+            
         if oldcount != tryCount:
             t.clear()
             t.write("PLAYER : " + player +
@@ -110,15 +120,7 @@ if __name__ == '__main__':
                     "\nTARGET : " + str(target.position()))
 
         oldcount = tryCount
-        if user.xcor() >= 55 or user.xcor() <= -55:
-           user.right(180)
-           user.forward(10)
-           tryCount = tryCount -1
-    
-        if user.ycor() >= 55 or user.ycor() <= -55:
-           user.right(180)
-           user.forward(10)
-           tryCount = tryCount -1
+
 
  
 

@@ -53,6 +53,8 @@ def target():
 
 
 def move_right():
+    if user.xcor() >= 100:
+        return
     global tryCount
     tryCount += 1
     user.setheading(0)
@@ -60,6 +62,8 @@ def move_right():
 
 
 def move_left():
+    if user.xcor() <= 0:
+        return
     global tryCount
     tryCount += 1
     user.setheading(180)
@@ -67,6 +71,8 @@ def move_left():
 
 
 def move_up():
+    if user.ycor() >= 100:
+        return
     global tryCount
     tryCount += 1
     user.setheading(90)
@@ -74,6 +80,8 @@ def move_up():
 
 
 def move_down():
+    if user.ycor() <= 0:
+        return
     global tryCount
     tryCount += 1
     user.setheading(270)

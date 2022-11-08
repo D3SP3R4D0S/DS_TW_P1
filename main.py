@@ -19,55 +19,95 @@
 
 import turtle as t
 import random
-# 스크린 객체 생성
-screen = t.Screen()
-screen.setup(100,100)
-# 스크린 배경색 지정
-screen.bgcolor("white")
-screen.tracer(2)
-
-# 울타리 그리기
-mypen = t.Turtle()
-mypen.penup()
-mypen.setposition(-100, 100)
-mypen.pendown()
-mypen.pensize(3)
 
 
-a1 = t.Turtle() #목표지점1
-a1.color("red")
-a1.shape("circle")
-a1.speed(0)
-a1.penup()
-a1.goto(random.randint(-100,100), random.randint(-100, 100))
+def init():
+    # 스크린 객체 생성
+    screen = t.Screen()
+    screen.setup(300,300)
+    # 스크린 배경색 지정
+    screen.bgcolor("white")
+    screen.tracer(2)
+    return screen
 
-tryCount = 0
 
-def turn_right():
+def user():
+    # 울타리 그리기
+    turtle = t.Turtle()
+    turtle.shape("turtle")
+    turtle.pendown()
+    turtle.setposition(-100, 100)
+    turtle.penup()
+    turtle.pensize(3)
+    return turtle
+
+
+def target():
+    target = t.Turtle() #목표지점1
+    target.color("red")
+    target.shape("circle")
+    target.speed(0)
+    target.penup()
+    target.goto(random.randint(0,100), random.randint(0, 100))
+    return target
+
+
+def move_right():
     global tryCount
-    tryCount = tryCount + 1
-    mypen.right(50)
+    tryCount += 1
+    user.setheading(0)
+    user.forward(10)
 
-def turn_left():
-    global tryCount
-    tryCount = tryCount + 1
-    mypen.left(50)
 
-def turn_down():
+def move_left():
     global tryCount
-    tryCount = tryCount + 1
-    mypen.backward(50)
+    tryCount += 1
+    user.setheading(180)
+    user.forward(10)
 
-def turn_up():
+
+def move_up():
     global tryCount
-    tryCount = tryCount + 1
-    mypen.forward(50)
-while True:
-    mypen.goto(0,0)
-    mypen.clear()
-    screen.onkeypress(turn_right, "Right")
-    screen.onkeypress(turn_left, "Left")
-    screen.onkeypress(turn_up, "Up")
-    screen.onkeypress(turn_down, "Down")
-    screen.listen()
-    a1.forward(2)
+    tryCount += 1
+    user.setheading(90)
+    user.forward(10)
+
+
+def move_down():
+    global tryCount
+    tryCount += 1
+    user.setheading(270)
+    user.forward(10)
+
+
+def getname():
+    name = t.textinput("터틀게임", "플레이어 이름을 입력하세요")
+    return name
+
+
+if __name__ == '__main__':
+    player = getname()
+    screen = init()
+    user = user()
+    target = target()
+    tryCount = 0
+    oldcount = -1
+    user.goto(0, 0)
+    # target.forward(2)
+    # t.write("PLAYER : " + player)
+    while True:
+        user.clear()
+        screen.onkeypress(move_right, "Right")
+        screen.onkeypress(move_left, "Left")
+        screen.onkeypress(move_up, "Up")
+        screen.onkeypress(move_down, "Down")
+        screen.listen()
+        if oldcount != tryCount:
+            t.clear()
+            t.write("PLAYER : " + player +
+                    "\nSCORE : " +str(tryCount) +
+                    "\nPOSITION : " + str(user.position()) +
+                    "\nTARGET : " + str(target.position()))
+
+        oldcount = tryCount
+

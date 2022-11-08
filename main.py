@@ -38,7 +38,7 @@ def user():
     turtle.pendown()
     turtle.setposition(-100, 100)
     turtle.penup()
-    turtle.pensize(3)
+    turtle.pensize(2)
     return turtle
 
 
@@ -110,4 +110,15 @@ if __name__ == '__main__':
                     "\nTARGET : " + str(target.position()))
 
         oldcount = tryCount
+        if user.xcor() >= 55 or user.xcor() <= -55:
+           user.right(180)
+           user.forward(10)
+           tryCount = tryCount -1
+    
+        if user.ycor() >= 55 or user.ycor() <= -55:
+           user.right(180)
+           user.forward(10)
+           tryCount = tryCount -1
+
+ 
 

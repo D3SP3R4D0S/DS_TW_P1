@@ -129,6 +129,14 @@ if __name__ == '__main__':
 
         oldcount = tryCount
 
+        if user.distance(target) == 0:
+            if stagecount < 6:
+                stagecount += 1
+                target.goto(random.randint(0,100), random.randint(0, 100))
+                tryCount = 0
+            if stagecount == 5:
+                break
+
 
  
 

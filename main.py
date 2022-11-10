@@ -108,26 +108,34 @@ def targetmove():
     # x to user + y to user -  동남쪽, case2
     # x to user - y to user +  서북쪽, case3
     # x to user - y to user -  서남쪽, case4
-
-    if x == 100 and y == 100:
-        if x_to_user > y_to_user:
-            target.setx(x-10)
+    if x == 100:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x - 10)
+            else:
+                target.sety(y - 10)
         else:
-            target.sety(y-10)
-    elif x == 0 and y == 0:
-        if x - user.xcor() > y - user.ycor():
-            target.setx(x+10)
+            # move y or move x -
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x - 10)
+            elif y_to_user > 0:
+                target.sety(y + 10)
+            elif y_to_user < 0:
+                target.sety(y - 10)
+    elif x == 0:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x+10)
+            else:
+                target.sety(y+10)
+            # move x or move y -
         else:
-            target.sety(y+10)
-        # move x or move y -
-    elif x == 100:
-        # move y or move x -
-        if abs(x_to_user) > abs(y_to_user):
-            target.setx(x-10)
-        elif y_to_user > 0:
-            target.sety(y+10)
-        elif y_to_user < 0:
-            target.sety(y-10)
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x + 10)
+            elif y_to_user > 0:
+                target.sety(y + 10)
+            elif y_to_user < 0:
+                target.sety(y - 10)
     elif y == 100:
         # move x or move y -
         if abs(y_to_user) > abs(x_to_user):
@@ -136,13 +144,6 @@ def targetmove():
             target.setx(x+10)
         elif x_to_user < 0:
             target.setx(x-10)
-    elif x == 0:
-        if abs(x_to_user) > abs(y_to_user):
-            target.setx(x+10)
-        elif y_to_user > 0:
-            target.sety(y+10)
-        elif y_to_user < 0:
-            target.sety(y-10)
         # move y or move x -
     elif y == 0:
         if abs(y_to_user) > abs(x_to_user):

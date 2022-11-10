@@ -38,7 +38,7 @@ def user():
     turtle.pendown()
     turtle.setposition(-100, 100)
     turtle.penup()
-    turtle.pensize(3)
+    turtle.pensize(2)
     return turtle
 
 
@@ -53,6 +53,8 @@ def target():
 
 
 def move_right():
+    if user.xcor() >= 100:
+        return
     global tryCount
     tryCount += 1
     user.setheading(0)
@@ -60,6 +62,8 @@ def move_right():
 
 
 def move_left():
+    if user.xcor() <= 0:
+        return
     global tryCount
     tryCount += 1
     user.setheading(180)
@@ -67,6 +71,8 @@ def move_left():
 
 
 def move_up():
+    if user.ycor() >= 100:
+        return
     global tryCount
     tryCount += 1
     user.setheading(90)
@@ -74,6 +80,8 @@ def move_up():
 
 
 def move_down():
+    if user.ycor() <= 0:
+        return
     global tryCount
     tryCount += 1
     user.setheading(270)
@@ -102,6 +110,16 @@ if __name__ == '__main__':
         screen.onkeypress(move_up, "Up")
         screen.onkeypress(move_down, "Down")
         screen.listen()
+        if user.xcor() > 100:
+            user.setx(100)
+        elif user.xcor() < 0:
+            user.setx(0)
+
+        if user.ycor() > 100:
+            user.sety(100)
+        elif user.ycor() < 0:
+            user.sety(0)
+            
         if oldcount != tryCount:
             t.clear()
             t.write("PLAYER : " + player +
@@ -110,4 +128,7 @@ if __name__ == '__main__':
                     "\nTARGET : " + str(target.position()))
 
         oldcount = tryCount
+
+
+ 
 

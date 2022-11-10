@@ -48,7 +48,7 @@ def target():
     target.shape("circle")
     target.speed(0)
     target.penup()
-    target.goto(random.randint(0,100), random.randint(0, 100))
+    target.goto(random.randint(0,10)*10, random.randint(0, 10)*10)
     return target
 
 
@@ -94,41 +94,58 @@ def getname():
 
 
 if __name__ == '__main__':
-    player = getname()
-    screen = init()
+    stagecount = 0
+    scores = []
     user = user()
     target = target()
-    tryCount = 0
-    oldcount = -1
-    user.goto(0, 0)
-    # target.forward(2)
-    # t.write("PLAYER : " + player)
-    while True:
-        user.clear()
-        screen.onkeypress(move_right, "Right")
-        screen.onkeypress(move_left, "Left")
-        screen.onkeypress(move_up, "Up")
-        screen.onkeypress(move_down, "Down")
-        screen.listen()
-        if user.xcor() > 100:
-            user.setx(100)
-        elif user.xcor() < 0:
-            user.setx(0)
+    screen = init()
 
-        if user.ycor() > 100:
-            user.sety(100)
-        elif user.ycor() < 0:
-            user.sety(0)
-            
-        if oldcount != tryCount:
-            t.clear()
-            t.write("PLAYER : " + player +
-                    "\nSCORE : " +str(tryCount) +
-                    "\nPOSITION : " + str(user.position()) +
-                    "\nTARGET : " + str(target.position()))
+    while stagecount < 6:
+        player = getname()
+        tryCount = 0
+        oldcount = -1
+        user.goto(0, 0)
 
-        oldcount = tryCount
+        target.color("red")
+        target.shape("circle")
+        target.speed(0)
+        target.penup()
+        target.goto(random.randint(0, 10) * 10, random.randint(0, 10) * 10)
+        while True:
+            user.clear()
+            screen.onkeypress(move_right, "Right")
+            screen.onkeypress(move_left, "Left")
+            screen.onkeypress(move_up, "Up")
+            screen.onkeypress(move_down, "Down")
+            screen.listen()
+            if user.xcor() > 100:
+                user.setx(100)
+            elif user.xcor() < 0:
+                user.setx(0)
 
+            if user.ycor() > 100:
+                user.sety(100)
+            elif user.ycor() < 0:
+                user.sety(0)
+
+            if oldcount != tryCount:
+                t.clear()
+                t.write("PLAYER : " + player +
+                        "\nSCORE : " +str(tryCount) +
+                        "\nPOSITION : " + str(user.position()) +
+                        "\nTARGET : " + str(target.position()))
+
+            oldcount = tryCount
+
+            if user.distance(target) < 1:
+                stagecount += 1
+                user.reset()
+                screen.reset()
+                target.reset()
+                scores.append([player, tryCount])
+                print(scores)
+                break
+    
 
  
 

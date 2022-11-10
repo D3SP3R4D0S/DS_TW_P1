@@ -45,7 +45,7 @@ def user():
 def target():
     target = t.Turtle() #목표지점1
     target.color("red")
-    target.shape("circle")
+    target.shape("square")
     target.speed(0)
     target.penup()
     target.goto(random.randint(0,10)*10, random.randint(0, 10)*10)
@@ -93,18 +93,28 @@ def getname():
     return name
 
 
+def targetmove():
+    x = target.xcor()
+    y = target.ycor()
+    print(x, y)
+
+
 def gameturn():
     global tryCount
     tryCount = 0
     oldcount = -1
     user.goto(0, 0)
     target.color("red")
-    target.shape("circle")
     target.speed(0)
     target.penup()
     target.goto(random.randint(0, 10) * 10, random.randint(0, 10) * 10)
+    beforemoved = 0
     while True:
         user.clear()
+        if tryCount%3 == 0 and beforemoved != tryCount:
+            targetmove()
+            targetmove()
+            beforemoved = tryCount
         screen.onkeypress(move_right, "Right")
         screen.onkeypress(move_left, "Left")
         screen.onkeypress(move_up, "Up")

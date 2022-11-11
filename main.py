@@ -53,6 +53,7 @@ def target():
 
 
 def move_right():
+    #벽(100)인 경우 count처리않고 return
     if user.xcor() >= 100:
         return
     global tryCount
@@ -62,6 +63,7 @@ def move_right():
 
 
 def move_left():
+    #벽(0)인 경우 count처리않고 return
     if user.xcor() <= 0:
         return
     global tryCount
@@ -71,6 +73,7 @@ def move_left():
 
 
 def move_up():
+    #벽(100)인 경우 count처리않고 return
     if user.ycor() >= 100:
         return
     global tryCount
@@ -80,6 +83,7 @@ def move_up():
 
 
 def move_down():
+    #벽(0)인 경우 count처리않고 return
     if user.ycor() <= 0:
         return
     global tryCount
@@ -216,6 +220,7 @@ def gameturn():
         screen.onkeypress(move_up, "Up")
         screen.onkeypress(move_down, "Down")
         screen.listen()
+        #User가 벽을 넘어가지 못 하도록 하는 코드
         if user.xcor() > 100:
             user.setx(100)
         elif user.xcor() < 0:
@@ -225,6 +230,17 @@ def gameturn():
             user.sety(100)
         elif user.ycor() < 0:
             user.sety(0)
+
+        #Target이 벽을 넘지 못 하게 하는 코드
+        if target.xcor() > 100:
+            targetmove()
+        elif target.xcor() < 0:
+            targetmove()
+
+        if target.ycor() > 100:
+            targetmove()
+        elif target.ycor() < 0:
+            targetmove()
 
         if oldcount != tryCount:
             t.clear()

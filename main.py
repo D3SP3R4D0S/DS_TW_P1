@@ -196,7 +196,400 @@ def targetmove():
             "\nPOSITION : " + str(user.position()) +
             "\nTARGET : " + str(target.position()))
 
+def targetmoveRight():
+    x = target.xcor()
+    y = target.ycor()
+    # 알고리즘 구성
+    # 4분면으로 나눈다 각 0~50 50~100 씩 x y 좌표로 할당
+    # 사용자가 각 사분면에 있을때의 행동이 변화한다
+    # 사용자가 반대 되는 사분면에 있을경우 벽쪽으로 도망
+    # Y좌표가 100 이상일 경우 무한으로 증가하는 버그 방지용. 작동 원리는 같음.
 
+    x_to_user = x - user.xcor()
+    y_to_user = y - user.ycor()
+    # x to user + y to user +  동북쪽, case1
+    # x to user + y to user -  동남쪽, case2
+    # x to user - y to user +  서북쪽, case3
+    # x to user - y to user -  서남쪽, case4
+    if x == 100:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x - 10)
+            else:
+                target.sety(y - 10)
+        else:
+            # move y or move x -
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x - 10)
+            elif y_to_user > 0:
+                target.sety(y + 10)
+            elif y_to_user < 0:
+                target.sety(y - 10)
+    elif x == 0:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x-10)
+            else:
+                target.sety(y+10)
+            # move x or move y -
+        else:
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x - 10)
+            elif y_to_user > 0:
+                target.sety(y + 10)
+            elif y_to_user < 0:
+                target.sety(y - 10)
+    elif y == 100:
+        # move x or move y -
+        if abs(y_to_user) > abs(x_to_user):
+            target.sety(y-10)
+        elif x_to_user > 0:
+            target.setx(x-10)
+        elif x_to_user < 0:
+            target.setx(x-10)
+        # move y or move x -
+    elif y == 0:
+        if abs(y_to_user) > abs(x_to_user):
+            target.sety(y-10)
+        elif x_to_user > 0:
+            target.setx(x-10)
+        elif x_to_user < 0:
+            target.setx(x-10)
+        # move y or move x -
+    else:
+        if x_to_user > 0:
+            if y_to_user > 0:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x - 10)
+                else:
+                    target.sety(y + 10)
+            else:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x - 10)
+                else:
+                    target.sety(y - 10)
+        elif x_to_user < 0:
+            if y_to_user > 0:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x - 10)
+                else:
+                    target.sety(y + 10)
+            else:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x - 10)
+                else:
+                    target.sety(y - 10)
+        else:
+            a = random.randint(1,5)
+            if a == 1:
+                target.sety(y-10)
+            elif a == 2:
+                target.sety(y+10)
+            elif a == 3:
+                target.setx(x-10)
+            elif a == 4:
+                target.setx(x-10)
+    t.clear()
+    t.write("PLAYER : " + player +
+            "\nSCORE : " + str(tryCount) +
+            "\nPOSITION : " + str(user.position()) +
+            "\nTARGET : " + str(target.position()))
+
+def targetmoveLeft():
+    x = target.xcor()
+    y = target.ycor()
+    # 알고리즘 구성
+    # 4분면으로 나눈다 각 0~50 50~100 씩 x y 좌표로 할당
+    # 사용자가 각 사분면에 있을때의 행동이 변화한다
+    # 사용자가 반대 되는 사분면에 있을경우 벽쪽으로 도망
+    # Y좌표가 100 이상일 경우 무한으로 증가하는 버그 방지용. 작동 원리는 같음.
+
+    x_to_user = x - user.xcor()
+    y_to_user = y - user.ycor()
+    # x to user + y to user +  동북쪽, case1
+    # x to user + y to user -  동남쪽, case2
+    # x to user - y to user +  서북쪽, case3
+    # x to user - y to user -  서남쪽, case4
+    if x == 100:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x + 10)
+            else:
+                target.sety(y - 10)
+        else:
+            # move y or move x -
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x + 10)
+            elif y_to_user > 0:
+                target.sety(y + 10)
+            elif y_to_user < 0:
+                target.sety(y - 10)
+    elif x == 0:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x+10)
+            else:
+                target.sety(y+10)
+            # move x or move y -
+        else:
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x + 10)
+            elif y_to_user > 0:
+                target.sety(y + 10)
+            elif y_to_user < 0:
+                target.sety(y - 10)
+    elif y == 100:
+        # move x or move y -
+        if abs(y_to_user) > abs(x_to_user):
+            target.sety(y-10)
+        elif x_to_user > 0:
+            target.setx(x+10)
+        elif x_to_user < 0:
+            target.setx(x+10)
+        # move y or move x -
+    elif y == 0:
+        if abs(y_to_user) > abs(x_to_user):
+            target.sety(y-10)
+        elif x_to_user > 0:
+            target.setx(x+10)
+        elif x_to_user < 0:
+            target.setx(x+10)
+        # move y or move x -
+    else:
+        if x_to_user > 0:
+            if y_to_user > 0:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x + 10)
+                else:
+                    target.sety(y + 10)
+            else:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x + 10)
+                else:
+                    target.sety(y - 10)
+        elif x_to_user < 0:
+            if y_to_user > 0:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x + 10)
+                else:
+                    target.sety(y + 10)
+            else:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x + 10)
+                else:
+                    target.sety(y - 10)
+        else:
+            a = random.randint(1,5)
+            if a == 1:
+                target.sety(y-10)
+            elif a == 2:
+                target.sety(y+10)
+            elif a == 3:
+                target.setx(x+10)
+            elif a == 4:
+                target.setx(x+10)
+    t.clear()
+    t.write("PLAYER : " + player +
+            "\nSCORE : " + str(tryCount) +
+            "\nPOSITION : " + str(user.position()) +
+            "\nTARGET : " + str(target.position()))
+
+
+def targetmoveUp():
+    x = target.xcor()
+    y = target.ycor()
+    # 알고리즘 구성
+    # 4분면으로 나눈다 각 0~50 50~100 씩 x y 좌표로 할당
+    # 사용자가 각 사분면에 있을때의 행동이 변화한다
+    # Y좌표가 100 이상일 경우 무한으로 증가하는 버그 방지용. 작동 원리는 같음.
+
+    x_to_user = x - user.xcor()
+    y_to_user = y - user.ycor()
+    # x to user + y to user +  동북쪽, case1
+    # x to user + y to user -  동남쪽, case2
+    # x to user - y to user +  서북쪽, case3
+    # x to user - y to user -  서남쪽, case4
+    if x == 100:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x - 10)
+            else:
+                target.sety(y - 10)
+        else:
+            # move y or move x -
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x - 10)
+            elif y_to_user > 0:
+                target.sety(y - 10)
+            elif y_to_user < 0:
+                target.sety(y - 10)
+    elif x == 0:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x+10)
+            else:
+                target.sety(y-10)
+            # move x or move y -
+        else:
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x + 10)
+            elif y_to_user > 0:
+                target.sety(y - 10)
+            elif y_to_user < 0:
+                target.sety(y - 10)
+    elif y == 100:
+        # move x or move y -
+        if abs(y_to_user) > abs(x_to_user):
+            target.sety(y-10)
+        elif x_to_user > 0:
+            target.setx(x+10)
+        elif x_to_user < 0:
+            target.setx(x-10)
+        # move y or move x -
+    elif y == 0:
+        if abs(y_to_user) > abs(x_to_user):
+            target.sety(y-10)
+        elif x_to_user > 0:
+            target.setx(x+10)
+        elif x_to_user < 0:
+            target.setx(x-10)
+        # move y or move x -
+    else:
+        if x_to_user > 0:
+            if y_to_user > 0:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x + 10)
+                else:
+                    target.sety(y - 10)
+            else:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x + 10)
+                else:
+                    target.sety(y - 10)
+        elif x_to_user < 0:
+            if y_to_user > 0:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x - 10)
+                else:
+                    target.sety(y - 10)
+            else:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x - 10)
+                else:
+                    target.sety(y - 10)
+        else:
+            a = random.randint(1,5)
+            if a == 1:
+                target.sety(y-10)
+            elif a == 2:
+                target.sety(y-10)
+            elif a == 3:
+                target.setx(x-10)
+            elif a == 4:
+                target.setx(x+10)
+    t.clear()
+    t.write("PLAYER : " + player +
+            "\nSCORE : " + str(tryCount) +
+            "\nPOSITION : " + str(user.position()) +
+            "\nTARGET : " + str(target.position()))
+
+def targetmoveDown():
+    x = target.xcor()
+    y = target.ycor()
+    # 알고리즘 구성
+    # 4분면으로 나눈다 각 0~50 50~100 씩 x y 좌표로 할당
+    # 사용자가 각 사분면에 있을때의 행동이 변화한다
+    # Y좌표가 100 이상일 경우 무한으로 증가하는 버그 방지용. 작동 원리는 같음.
+
+    x_to_user = x - user.xcor()
+    y_to_user = y - user.ycor()
+    # x to user + y to user +  동북쪽, case1
+    # x to user + y to user -  동남쪽, case2
+    # x to user - y to user +  서북쪽, case3
+    # x to user - y to user -  서남쪽, case4
+    if x == 100:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x - 10)
+            else:
+                target.sety(y + 10)
+        else:
+            # move y or move x -
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x - 10)
+            elif y_to_user > 0:
+                target.sety(y + 10)
+            elif y_to_user < 0:
+                target.sety(y + 10)
+    elif x == 0:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x+10)
+            else:
+                target.sety(y+10)
+            # move x or move y -
+        else:
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x + 10)
+            elif y_to_user > 0:
+                target.sety(y + 10)
+            elif y_to_user < 0:
+                target.sety(y + 10)
+    elif y == 100:
+        # move x or move y -
+        if abs(y_to_user) > abs(x_to_user):
+            target.sety(y+10)
+        elif x_to_user > 0:
+            target.setx(x+10)
+        elif x_to_user < 0:
+            target.setx(x-10)
+        # move y or move x -
+    elif y == 0:
+        if abs(y_to_user) > abs(x_to_user):
+            target.sety(y+10)
+        elif x_to_user > 0:
+            target.setx(x+10)
+        elif x_to_user < 0:
+            target.setx(x-10)
+        # move y or move x -
+    else:
+        if x_to_user > 0:
+            if y_to_user > 0:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x + 10)
+                else:
+                    target.sety(y + 10)
+            else:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x + 10)
+                else:
+                    target.sety(y + 10)
+        elif x_to_user < 0:
+            if y_to_user > 0:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x - 10)
+                else:
+                    target.sety(y + 10)
+            else:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x - 10)
+                else:
+                    target.sety(y + 10)
+        else:
+            a = random.randint(1,5)
+            if a == 1:
+                target.sety(y+10)
+            elif a == 2:
+                target.sety(y+10)
+            elif a == 3:
+                target.setx(x-10)
+            elif a == 4:
+                target.setx(x+10)
+    t.clear()
+    t.write("PLAYER : " + player +
+            "\nSCORE : " + str(tryCount) +
+            "\nPOSITION : " + str(user.position()) +
+            "\nTARGET : " + str(target.position()))
 
 def gameturn():
     global tryCount
@@ -210,7 +603,10 @@ def gameturn():
     beforemoved = 0
     while True:
         user.clear()
-        if tryCount%3 == 0 and beforemoved != tryCount:
+        #아래의 if문으로 울타리에 부딪혔을 경우 추가 move를 방지하여 110좌표 이상으로 가는 것을 방지한다.
+        if target.xcor() > 100 or target.xcor() < 0 or target.ycor() > 100 or target.ycor() < 0:
+            return
+        elif tryCount%3 == 0 and beforemoved != tryCount:
             targetmove()
             time.sleep(0.1)
             targetmove()
@@ -233,14 +629,14 @@ def gameturn():
 
         #Target이 벽을 넘지 못 하게 하는 코드
         if target.xcor() > 100:
-            targetmove()
+            targetmoveRight()
         elif target.xcor() < 0:
-            targetmove()
+            targetmoveLeft()
 
         if target.ycor() > 100:
-            targetmove()
+            targetmoveUp()
         elif target.ycor() < 0:
-            targetmove()
+            targetmoveDown()
 
         if oldcount != tryCount:
             t.clear()

@@ -103,44 +103,54 @@ def targetmove():
     # x to user + y to user -  동남쪽, case2
     # x to user - y to user +  서북쪽, case3
     # x to user - y to user -  서남쪽, case4
-    if x >= 100:
-        if y >= 100:
-            if x_to_user > y_to_user-30:
-                target.setx(x - 10)
+    if x >= 100: # 타겟의 x 값이 100을 넘을 경우
+        if y >= 100: # 타겟이 x y 가 모두 100인경우
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x - 10) # x 로 떨어진 거리가 더 클경우 x 값을 감소시킨다
             else:
-                target.sety(y - 10)
-        elif y <= 0:
-            if x_to_user > y_to_user-30:
-                target.setx(x - 10)
+                target.sety(y - 10) # y 로 떨어진 거리가 더 클경우 y 값을 감소시킨다
+        elif y <= 0: # x > 100 y  < 0
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x - 10) # x 떨어진 거리가 더클경우 x 값을 감소시킨다
             else:
-                target.sety(y + 10)
+                target.sety(y + 10) # y 로 떨어진 거리가 더 클경우 y 값을 증가시킨다 ( y 가 max 값임)
         else:
             # move y or move x -
-            if abs(x_to_user) > abs(y_to_user):
+            if abs(x_to_user) > abs(y_to_user): # x로 떨어진 값이 더 클경우 x 를 감소시킨다
                 target.setx(x - 10)
-            elif y_to_user > 0:
-                target.sety(y + 10)
-            elif y_to_user < 0:
-                target.sety(y - 10)
+            elif y_to_user > 0: # y 로 사용자와 양수값 ( 사용자보다 위에 있음)
+                target.sety(y + 10) # y 의 양의 방향으로 도망간다
+            elif y_to_user < 0: # 음수값일경우 (사용자보다 아래에 있음
+                target.sety(y - 10) # y 의 음의 방향으로 도망간다
+            else: # y의 축이 사용자와 같을경우
+                if y > 50:
+                    target.sety(y - 10)
+                elif y < 50:
+                    target.sety(y + 10)
     elif x <= 0:
         if y >= 100:
-            if x_to_user > y_to_user-30:
-                target.setx(x+10)
-            else:
-                target.sety(y+10)
-            # move x or move y -
-        if y <= 0:
-            if x_to_user > y_to_user-30:
+            if abs(x_to_user) > abs(y_to_user):
                 target.setx(x+10)
             else:
                 target.sety(y-10)
+            # move x or move y -
+        if y <= 0:
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x+10)
+            else:
+                target.sety(y+10)
         else:
             if abs(x_to_user) > abs(y_to_user):
                 target.setx(x + 10)
-            elif y_to_user > 0:
-                target.sety(y + 10)
-            elif y_to_user < 0:
-                target.sety(y - 10)
+            elif y_to_user > 0:  # y 로 사용자와 양수값 ( 사용자보다 위에 있음)
+                target.sety(y + 10)  # y 의 양의 방향으로 도망간다
+            elif y_to_user < 0:  # 음수값일경우 (사용자보다 아래에 있음
+                target.sety(y - 10)  # y 의 음의 방향으로 도망간다
+            else: # y의 축이 사용자와 같을경우
+                if y > 50:
+                    target.sety(y - 10)
+                elif y < 50:
+                    target.sety(y + 10)
     elif y >= 100:
         # move x or move y -
         if abs(y_to_user) > abs(x_to_user):

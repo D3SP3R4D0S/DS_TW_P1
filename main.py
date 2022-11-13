@@ -24,7 +24,7 @@ import random
 def init():
     # 스크린 객체 생성
     screen = t.Screen()
-    screen.setup(300,300)
+    screen.setup(400,300)
     # 스크린 배경색 지정
     screen.bgcolor("white")
     screen.tracer(2)
@@ -32,14 +32,42 @@ def init():
 
 
 def user():
-    # 울타리 그리기
+    # 유저 객체 생성
     turtle = t.Turtle()
     turtle.shape("turtle")
-    turtle.pendown()
-    turtle.setposition(-100, 100)
     turtle.penup()
     turtle.pensize(2)
     return turtle
+
+def fence():
+    # 울타리 그리기
+    fence = t.Turtle()
+    fence.penup()
+    fence.setposition(-10, -10)
+    fence.pendown()
+    fence.pensize(2)
+    for x in range(4):
+        fence.forward(120)
+        fence.left(90)
+    fence.hideturtle()
+    return fence
+
+def scoreBoard():
+    #점수표 그리기
+    scoreboard = t.Turtle()
+    scoreboard.penup()
+    scoreboard.setposition(-150, 110)
+    scoreboard.pendown()
+    scoreboard.pensize(2)
+    for x in range(4):
+        if x % 2 == 0:
+            scoreboard.forward(130)
+            scoreboard.right(90)
+        else:
+            scoreboard.forward(60)
+            scoreboard.right(90)
+    scoreboard.hideturtle()
+    return scoreboard
 
 
 def target():
@@ -93,12 +121,176 @@ def getname():
     return name
 
 
+<<<<<<< Updated upstream
+=======
+def targetmove():
+    x = target.xcor()
+    y = target.ycor()
+    # 알고리즘 구성
+    # 4분면으로 나눈다 각 0~50 50~100 씩 x y 좌표로 할당
+    # 사용자가 각 사분면에 있을때의 행동이 변화한다
+    # 사용자가 반대 되는 사분면에 있을경우 벽쪽으로 도망
+    # 사용자가 맞은편 사분면에 있을경우 반대편 사분면으로 도망
+
+    x_to_user = x - user.xcor()
+    y_to_user = y - user.ycor()
+    # x to user + y to user +  동북쪽, case1
+    # x to user + y to user -  동남쪽, case2
+    # x to user - y to user +  서북쪽, case3
+    # x to user - y to user -  서남쪽, case4
+    if x == 100:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x - 10)
+            else:
+                target.sety(y - 10)
+        else:
+            # move y or move x -
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x - 10)
+            elif y_to_user > 0:
+                target.sety(y + 10)
+            elif y_to_user < 0:
+                target.sety(y - 10)
+    elif x == 0:
+        if y == 100:
+            if x_to_user > y_to_user-30:
+                target.setx(x+10)
+            else:
+                target.sety(y+10)
+            # move x or move y -
+        else:
+            if abs(x_to_user) > abs(y_to_user):
+                target.setx(x + 10)
+            elif y_to_user > 0:
+                target.sety(y + 10)
+            elif y_to_user < 0:
+                target.sety(y - 10)
+    elif y == 100:
+        # move x or move y -
+        if abs(y_to_user) > abs(x_to_user):
+            target.sety(y-10)
+        elif x_to_user > 0:
+            target.setx(x+10)
+        elif x_to_user < 0:
+            target.setx(x-10)
+        # move y or move x -
+    elif y == 0:
+        if abs(y_to_user) > abs(x_to_user):
+            target.sety(y-10)
+        elif x_to_user > 0:
+            target.setx(x+10)
+        elif x_to_user < 0:
+            target.setx(x-10)
+        # move y or move x -
+    else:
+        if x_to_user > 0:
+            if y_to_user > 0:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x + 10)
+                else:
+                    target.sety(y + 10)
+            else:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x + 10)
+                else:
+                    target.sety(y - 10)
+        elif x_to_user < 0:
+            if y_to_user > 0:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x - 10)
+                else:
+                    target.sety(y + 10)
+            else:
+                if abs(y_to_user) > abs(x_to_user):
+                    target.setx(x - 10)
+                else:
+                    target.sety(y - 10)
+        else:
+            a = random.randint(1,5)
+            if a == 1:
+                target.sety(y-10)
+            elif a == 2:
+                target.sety(y+10)
+            elif a == 3:
+                target.setx(x-10)
+            elif a == 4:
+                target.setx(x+10)
+    t.clear()
+    t.write("PLAYER : " + player +
+            "\nSCORE : " + str(tryCount) +
+            "\nPOSITION : " + str(user.position()) +
+            "\nTARGET : " + str(target.position()))
+
+
+
+def gameturn():
+    global tryCount
+    tryCount = 0
+    oldcount = -1
+    user.goto(0, 0)
+    target.color("red")
+    target.speed(0)
+    target.penup()
+    target.goto(random.randint(0, 10) * 10, random.randint(0, 10) * 10)
+    beforemoved = 0
+    while True:
+        user.clear()
+        if tryCount%3 == 0 and beforemoved != tryCount:
+            targetmove()
+            time.sleep(0.1)
+            targetmove()
+            beforemoved = tryCount
+        screen.onkeypress(move_right, "Right")
+        screen.onkeypress(move_left, "Left")
+        screen.onkeypress(move_up, "Up")
+        screen.onkeypress(move_down, "Down")
+        screen.listen()
+        if user.xcor() > 100:
+            user.setx(100)
+        elif user.xcor() < 0:
+            user.setx(0)
+
+        if user.ycor() > 100:
+            user.sety(100)
+        elif user.ycor() < 0:
+            user.sety(0)
+
+        if oldcount != tryCount:
+            t.clear()
+            t.penup()
+            t.hideturtle()
+            t.setposition(-150, 50)
+            t.write("PLAYER : " + player +
+                    "\nSCORE : " + str(tryCount) +
+                    "\nPOSITION : " + str(user.position()) +
+                    "\nTARGET : " + str(target.position()))
+
+        oldcount = tryCount
+        if user.distance(target) < 1:
+            user.reset()
+            screen.reset()
+            target.reset()
+            break
+    return tryCount
+
+
+>>>>>>> Stashed changes
 if __name__ == '__main__':
     stagecount = 0
     scores = []
     user = user()
     target = target()
     screen = init()
+<<<<<<< Updated upstream
+=======
+    fence = fence()
+    scoreboard = scoreBoard()
+    while True:
+        while stagecount < 5:
+            player = getname()
+            score = gameturn()
+>>>>>>> Stashed changes
 
     while stagecount < 6:
         player = getname()
@@ -145,7 +337,10 @@ if __name__ == '__main__':
                 scores.append([player, tryCount])
                 print(scores)
                 break
+<<<<<<< Updated upstream
     
 
  
 
+=======
+>>>>>>> Stashed changes

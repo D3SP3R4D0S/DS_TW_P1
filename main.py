@@ -35,10 +35,6 @@ def user():
     # 울타리 그리기
     turtle = t.Turtle()
     turtle.shape("turtle")
-    turtle.pendown()
-    turtle.setposition(-100, 100)
-    turtle.penup()
-    turtle.pensize(2)
     return turtle
 
 
@@ -101,7 +97,6 @@ def targetmove():
     # 사용자가 각 사분면에 있을때의 행동이 변화한다
     # 사용자가 반대 되는 사분면에 있을경우 벽쪽으로 도망
     # 사용자가 맞은편 사분면에 있을경우 반대편 사분면으로 도망
-
     x_to_user = x - user.xcor()
     y_to_user = y - user.ycor()
     # x to user + y to user +  동북쪽, case1
@@ -114,6 +109,11 @@ def targetmove():
                 target.setx(x - 10)
             else:
                 target.sety(y - 10)
+        elif y <= 0:
+            if x_to_user > y_to_user-30:
+                target.setx(x - 10)
+            else:
+                target.sety(y + 10)
         else:
             # move y or move x -
             if abs(x_to_user) > abs(y_to_user):
@@ -129,6 +129,11 @@ def targetmove():
             else:
                 target.sety(y+10)
             # move x or move y -
+        if y <= 0:
+            if x_to_user > y_to_user-30:
+                target.setx(x+10)
+            else:
+                target.sety(y-10)
         else:
             if abs(x_to_user) > abs(y_to_user):
                 target.setx(x + 10)
@@ -193,7 +198,6 @@ def targetmove():
             "\nTARGET : " + str(target.position()))
 
 
-
 def gameturn():
     global tryCount
     tryCount = 0
@@ -242,6 +246,7 @@ def gameturn():
     return tryCount
 
 
+
 if __name__ == '__main__':
     stagecount = 0
     scores = []
@@ -268,7 +273,7 @@ if __name__ == '__main__':
         target.color("red")
         target.speed(0)
         target.penup()
-        target.goto(100,100)
+        target.goto(100, 100)
         while True:
             user.clear()
             screen.onkeypress(move_right, "Right")
@@ -282,4 +287,3 @@ if __name__ == '__main__':
                 scores = []
                 stagecount = 0
                 break
-

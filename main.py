@@ -24,7 +24,7 @@ import random
 def init():
     # 스크린 객체 생성
     screen = t.Screen()
-    screen.setup(300,300)
+    screen.setup(400,300)
     # 스크린 배경색 지정
     screen.bgcolor("white")
     screen.tracer(2)
@@ -32,14 +32,41 @@ def init():
 
 
 def user():
-    # 울타리 그리기
+    # 유저 객체 생성
     turtle = t.Turtle()
     turtle.shape("turtle")
-    turtle.pendown()
-    turtle.setposition(-100, 100)
-    turtle.penup()
-    turtle.pensize(2)
     return turtle
+
+
+def fence():
+    # 울타리 그리기
+    fence = t.Turtle()
+    fence.penup()
+    fence.setposition(-10, -10)
+    fence.pendown()
+    fence.pensize(2)
+    for x in range(4):
+        fence.forward(120)
+        fence.left(90)
+    fence.hideturtle()
+
+
+def scoreBoard():
+    #점수표 그리기
+    scoreboard = t.Turtle()
+    scoreboard.penup()
+    scoreboard.setposition(-150, 110)
+    scoreboard.pendown()
+    scoreboard.pensize(2)
+    for x in range(4):
+        if x % 2 == 0:
+            scoreboard.forward(130)
+            scoreboard.right(90)
+        else:
+            scoreboard.forward(60)
+            scoreboard.right(90)
+    scoreboard.hideturtle()
+    return scoreboard
 
 
 def target():
@@ -228,6 +255,9 @@ def gameturn():
 
         if oldcount != tryCount:
             t.clear()
+            t.penup()
+            t.hideturtle()
+            t.setposition(-150, 50)
             t.write("PLAYER : " + player +
                     "\nSCORE : " + str(tryCount) +
                     "\nPOSITION : " + str(user.position()) +
@@ -248,6 +278,8 @@ if __name__ == '__main__':
     user = user()
     target = target()
     screen = init()
+    fence = fence()
+    scoreboard = scoreBoard()
     while True:
         while stagecount < 5:
             player = getname()

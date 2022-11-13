@@ -108,8 +108,8 @@ def targetmove():
     # x to user + y to user -  동남쪽, case2
     # x to user - y to user +  서북쪽, case3
     # x to user - y to user -  서남쪽, case4
-    if x == 100:
-        if y == 100:
+    if x >= 100:
+        if y >= 100:
             if x_to_user > y_to_user-30:
                 target.setx(x - 10)
             else:
@@ -122,8 +122,8 @@ def targetmove():
                 target.sety(y + 10)
             elif y_to_user < 0:
                 target.sety(y - 10)
-    elif x == 0:
-        if y == 100:
+    elif x <= 0:
+        if y >= 100:
             if x_to_user > y_to_user-30:
                 target.setx(x+10)
             else:
@@ -136,7 +136,7 @@ def targetmove():
                 target.sety(y + 10)
             elif y_to_user < 0:
                 target.sety(y - 10)
-    elif y == 100:
+    elif y >= 100:
         # move x or move y -
         if abs(y_to_user) > abs(x_to_user):
             target.sety(y-10)
@@ -145,7 +145,7 @@ def targetmove():
         elif x_to_user < 0:
             target.setx(x-10)
         # move y or move x -
-    elif y == 0:
+    elif y <= 0:
         if abs(y_to_user) > abs(x_to_user):
             target.sety(y-10)
         elif x_to_user > 0:

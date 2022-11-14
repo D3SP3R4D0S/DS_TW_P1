@@ -66,7 +66,6 @@ def scoreBoard():
             scoreboard.forward(60)
             scoreboard.right(90)
     scoreboard.hideturtle()
-    return scoreboard
 
 
 def target():
@@ -244,6 +243,8 @@ def gameturn():
     global tryCount
     tryCount = 0
     oldcount = -1
+    fence()
+    scoreBoard()
     user.goto(0, 0)
     target.color("red")
     target.speed(0)
@@ -297,8 +298,6 @@ if __name__ == '__main__':
     user = user()
     target = target()
     screen = init()
-    fence = fence()
-    scoreboard = scoreBoard()
     while True:
         while stagecount < 5:
             player = getname()

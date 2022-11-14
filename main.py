@@ -24,7 +24,7 @@ import random
 def init():
     # 스크린 객체 생성
     screen = t.Screen()
-    screen.setup(300,300)
+    screen.setup(400,300)
     # 스크린 배경색 지정
     screen.bgcolor("white")
     screen.tracer(2)
@@ -32,10 +32,40 @@ def init():
 
 
 def user():
-    # 울타리 그리기
+    # 유저 객체 생성
     turtle = t.Turtle()
     turtle.shape("turtle")
     return turtle
+
+
+def fence():
+    # 울타리 그리기
+    fence = t.Turtle()
+    fence.penup()
+    fence.setposition(-10, -10)
+    fence.pendown()
+    fence.pensize(2)
+    for x in range(4):
+        fence.forward(120)
+        fence.left(90)
+    fence.hideturtle()
+
+
+def scoreBoard():
+    #점수표 그리기
+    scoreboard = t.Turtle()
+    scoreboard.penup()
+    scoreboard.setposition(-150, 110)
+    scoreboard.pendown()
+    scoreboard.pensize(2)
+    for x in range(4):
+        if x % 2 == 0:
+            scoreboard.forward(130)
+            scoreboard.right(90)
+        else:
+            scoreboard.forward(60)
+            scoreboard.right(90)
+    scoreboard.hideturtle()
 
 
 def target():
@@ -134,7 +164,7 @@ def targetmove():
             else:
                 target.sety(y-10)
             # move x or move y -
-        if y <= 0:
+        elif y <= 0:
             if abs(x_to_user) > abs(y_to_user):
                 target.setx(x+10)
             else:
@@ -162,7 +192,7 @@ def targetmove():
         # move y or move x -
     elif y <= 0:
         if abs(y_to_user) > abs(x_to_user):
-            target.sety(y-10)
+            target.sety(y + 10)
         elif x_to_user > 0:
             target.setx(x+10)
         elif x_to_user < 0:
@@ -212,6 +242,8 @@ def gameturn():
     global tryCount
     tryCount = 0
     oldcount = -1
+    fence()
+    scoreBoard()
     user.goto(0, 0)
     target.color("red")
     target.speed(0)
@@ -242,6 +274,9 @@ def gameturn():
 
         if oldcount != tryCount:
             t.clear()
+            t.penup()
+            t.hideturtle()
+            t.setposition(-150, 50)
             t.write("PLAYER : " + player +
                     "\nSCORE : " + str(tryCount) +
                     "\nPOSITION : " + str(user.position()) +

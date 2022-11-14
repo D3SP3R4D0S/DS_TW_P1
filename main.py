@@ -238,7 +238,6 @@ def targetmove():
             "\nTARGET : " + str(target.position()))
 
 
-
 def gameturn():
     global tryCount
     tryCount = 0
@@ -292,6 +291,7 @@ def gameturn():
     return tryCount
 
 
+
 if __name__ == '__main__':
     stagecount = 0
     scores = []
@@ -318,7 +318,7 @@ if __name__ == '__main__':
         target.color("red")
         target.speed(0)
         target.penup()
-        target.goto(100,100)
+        target.goto(100, 100)
         while True:
             user.clear()
             screen.onkeypress(move_right, "Right")
@@ -332,4 +332,3 @@ if __name__ == '__main__':
                 scores = []
                 stagecount = 0
                 break
-

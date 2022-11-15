@@ -39,7 +39,7 @@ def user():
     return turtle
 
 
-def fence():
+def fence(crossline = True):
     # 울타리 그리기
     fence = t.Turtle()
     fence.penup()
@@ -51,22 +51,22 @@ def fence():
     for x in range(4):
         fence.forward(11*scale)
         fence.left(90)
-    fence.color("midnightBlue")
-    fence.pensize(1)
-    for i in range(10):
-        fence.penup()
-        fence.goto(-5.5 * scale, (i - 4.5) * scale)
-        fence.pendown()
-        fence.goto(+5.5 * scale, (i - 4.5) * scale)
-        fence.penup()
+    if crossline:
+        fence.color("midnightBlue")
+        fence.pensize(1)
+        for i in range(10):
+            fence.penup()
+            fence.goto(-5.5 * scale, (i - 4.5) * scale)
+            fence.pendown()
+            fence.goto(+5.5 * scale, (i - 4.5) * scale)
+            fence.penup()
 
-    for i in range(10):
-        fence.penup()
-        fence.goto((i - 4.5) * scale, -5.5 * scale)
-        fence.pendown()
-        fence.goto((i - 4.5) * scale, +5.5 * scale)
-        fence.penup()
-    fence.hideturtle()
+        for i in range(10):
+            fence.penup()
+            fence.goto((i - 4.5) * scale, -5.5 * scale)
+            fence.pendown()
+            fence.goto((i - 4.5) * scale, +5.5 * scale)
+            fence.penup()
 
 
 def texttuetle():
@@ -85,36 +85,40 @@ def target():
 
 def move_right():
     if user.xcor() >= 5*scale:
+        user.setx(5*scale)
         return
     global tryCount
-    tryCount += 1
+    tryCount -= 1
     user.setheading(0)
     user.forward(1*scale)
 
 
 def move_left():
     if user.xcor() <= -5*scale:
+        user.setx(-55 * scale)
         return
     global tryCount
-    tryCount += 1
+    tryCount -= 1
     user.setheading(180)
     user.forward(1*scale)
 
 
 def move_up():
     if user.ycor() >= 5*scale:
+        user.sety(5 * scale)
         return
     global tryCount
-    tryCount += 1
+    tryCount -= 1
     user.setheading(90)
     user.forward(1*scale)
 
 
 def move_down():
     if user.ycor() <= -5*scale:
+        user.sety(-5 * scale)
         return
     global tryCount
-    tryCount += 1
+    tryCount -= 1
     user.setheading(270)
     user.forward(1*scale)
 
@@ -145,24 +149,21 @@ def targetmove():
     # 사용자가 각 사분면에 있을때의 행동이 변화한다
     # 사용자가 반대 되는 사분면에 있을경우 벽쪽으로 도망
     # 사용자가 맞은편 사분면에 있을경우 반대편 사분면으로 도망
-    x_to_user = x - user.xcor()
-    y_to_user = y - user.ycor()
-    # x to user + y to user +  동북쪽, case1
-    # x to user + y to user -  동남쪽, case2
-    # x to user - y to user +  서북쪽, case3
-    # x to user - y to user -  서남쪽, case4
-    if x >= 5*scale: # 타겟의 x 값이 scale을 넘을 경우
-        if y >= scale: # 타겟이 x y 가 모두 scale인경우
+    x_to_user = x - user.xcor() # 사용자와 x 축으로 떨어진 거리 값
+    y_to_user = y - user.ycor() # 사용자와 y 축으로 떨어진 거리 값
+
+    if x >= 5*scale: # 타겟의 x 값이 5scale을 넘을 경우
+        if y >= 5*scale: # 타겟이 x y 가 모두 5scale인경우
             if abs(x_to_user) > abs(y_to_user):
-                target.setx(x - scale) # x 로 떨어진 거리가 더 클경우 x 값을 감소시킨다
+                target.sety(y - scale) # x 로 떨어진 거리가 더 클경우 y 값을 감소시킨다
             else:
-                target.sety(y - scale) # y 로 떨어진 거리가 더 클경우 y 값을 감소시킨다
-        elif y <= 0: # x > scale y  < 0
+                target.setx(x - scale) # y 로 떨어진 거리가 더 클경우 x 값을 감소시킨다
+        elif y <= -5*scale: # x > scale y  < 0
             if abs(x_to_user) > abs(y_to_user):
-                target.setx(x - scale) # x 떨어진 거리가 더클경우 x 값을 감소시킨다
+                target.sety(y + scale) # x 떨어진 거리가 더클경우 y 값을 감소시킨다
             else:
-                target.sety(y + scale) # y 로 떨어진 거리가 더 클경우 y 값을 증가시킨다 ( y 가 max 값임)
-        else:
+                 target.setx(x - scale) # y 로 떨어진 거리가 더 클경우 x 값을 증가시킨다 ( y 가 max 값임)
+        else: # x 축 선상 ( 5scale ) 에 있을 경우
             # move y or move x -
             if abs(x_to_user) > abs(y_to_user): # x로 떨어진 값이 더 클경우 x 를 감소시킨다
                 target.setx(x - scale)
@@ -171,50 +172,50 @@ def targetmove():
             elif y_to_user < 0: # 음수값일경우 (사용자보다 아래에 있음
                 target.sety(y - scale) # y 의 음의 방향으로 도망간다
             else: # y의 축이 사용자와 같을경우
-                if y > 50:
-                    target.sety(y - scale)
-                elif y < 50:
+                if y > 0:
                     target.sety(y + scale)
+                elif y < 0:
+                    target.sety(y - scale)
     elif x <= -5*scale:
-        if y >= scale:
+        if y >= 5*scale: # 타겟이 x 가 -5 , y 가 +5 인경우
             if abs(x_to_user) > abs(y_to_user):
-                target.setx(x+scale)
+                target.sety(y - scale)
             else:
-                target.sety(y-scale)
-            # move x or move y -
-        elif y <= 0:
-            if abs(x_to_user) > abs(y_to_user):
-                target.setx(x+scale)
-            else:
-                target.sety(y+scale)
-        else:
-            if abs(x_to_user) > abs(y_to_user):
                 target.setx(x + scale)
+            # move x or move y -
+        elif y <= -5*scale: # 타겟이 x y 가 모두 -5 인경우
+            if abs(x_to_user) > abs(y_to_user):
+                target.sety(y + scale)
+            else:
+                target.setx(x + scale)
+        else: # x 축 선상 ( -5scale ) 에 있을 경우
+            if abs(x_to_user) > abs(y_to_user):
+                target.sety(y + scale)
             elif y_to_user > 0:  # y 로 사용자와 양수값 ( 사용자보다 위에 있음)
                 target.sety(y + scale)  # y 의 양의 방향으로 도망간다
             elif y_to_user < 0:  # 음수값일경우 (사용자보다 아래에 있음
                 target.sety(y - scale)  # y 의 음의 방향으로 도망간다
-            else: # y의 축이 사용자와 같을경우
-                if y > 50:
-                    target.sety(y - scale)
-                elif y < 50:
-                    target.sety(y + scale)
-    elif y >= 5*scale:
+            else: # y의 축이 사용자와 같을경우 빈공간이 많은 쪽으로 이동한다
+                if y > 0:
+                    target.sety(y - scale) # y 값이 양수일경우 아래쪽이 비어있어 아래로 이동
+                elif y < 0:
+                    target.sety(y + scale) # y값이 음수일경우 위쪽이 비어있어 위로 이동
+    elif y >= 5*scale:# y 축 선상 ( 5scale ) 에 있을 경우
         # move x or move y -
         if abs(y_to_user) > abs(x_to_user):
-            target.sety(y-scale)
+            target.sety(y-scale)  # y로 떨어진 거리가 많으면 y 값을 줄여본다
         elif x_to_user > 0:
-            target.setx(x+scale)
-        elif x_to_user < 0:
-            target.setx(x-scale)
+            target.setx(x+scale) # x 와 가까우면 x 축을 이동한다
+        else:
+            target.setx(x-scale) # x 와 음수로 떨어졌을경우 x 와 멀어진다
         # move y or move x -
-    elif y <= -5*scale:
+    elif y <= -5*scale:# y 축 선상 ( -5scale ) 에 있을 경우
         if abs(y_to_user) > abs(x_to_user):
-            target.sety(y + scale)
+            target.sety(y + scale) # y로 떨어진 거리가 많으면 y 값을 늘려본다
         elif x_to_user > 0:
-            target.setx(x+scale)
-        elif x_to_user < 0:
-            target.setx(x-scale)
+            target.setx(x+scale) # x 와 가까우면 x 축을 이동한다
+        else:
+            target.setx(x-scale) #x 와 음수로 떨어졌을경우 x 와 멀어진다
         # move y or move x -
     else:
         if x_to_user > 0:
@@ -254,8 +255,8 @@ def targetmove():
 
 def gameturn():
     global tryCount
-    tryCount = 0
-    oldcount = -1
+    tryCount = 100
+    oldcount = 101
     fence()
     # scoreBoard()
     user.goto(-5*scale, -5*scale)
@@ -266,10 +267,10 @@ def gameturn():
     target.penup()
     target.goto(random.randint(-5, 5)*scale, random.randint(-5,5)*scale)
     target.turtlesize(scale/20)
-    beforemoved = 0
+    beforemoved = 101
     while True:
         user.clear()
-        if tryCount%3 == 0 and beforemoved != tryCount:
+        if (tryCount+2)%3 == 0 and beforemoved != tryCount:
             targetmove()
             time.sleep(0.1)
             targetmove()
@@ -280,7 +281,7 @@ def gameturn():
         screen.onkeypress(move_down, "Down")
         screen.listen()
         if user.xcor() > 5*scale:
-            user.setx(10*scale)
+            user.setx(5*scale)
         elif user.xcor() < -5*scale:
             user.setx(-5*scale)
 
@@ -291,9 +292,8 @@ def gameturn():
 
         if oldcount != tryCount:
             showscore()
-
-        oldcount = tryCount
-        if user.distance(target) < 1:
+            oldcount = tryCount
+        if user.distance(target) < 1 or tryCount == 0:
             user.reset()
             screen.reset()
             target.reset()
@@ -302,22 +302,29 @@ def gameturn():
 
 
 def gamesummary(scores):
-    scores.sort(key=lambda x: x[1])
+    scores.sort(key=lambda x: x[1], reverse = True)
     print(scores)
-    fence()
+    fence(False)
     texttuetle.clear()
     texttuetle.penup()
     texttuetle.hideturtle()
     texttuetle.color("white")
     # t.write("1st : " + scores[0][0] + " score : " + str(scores[0][1]), align="center", font=("Unispace", 15, "normal")) # 디버깅을 위해 하나만 표시
-    texttuetle.setposition(0, -1.5 * scale)
+    texttuetle.setposition(-3*scale, -1.5 * scale)
     texttuetle.color("white")
-    texttuetle.write("1st : " + scores[0][0] + " score : " + str(scores[0][1]) +
-                     "\n2nd : " + scores[1][0] + " score : " + str(scores[1][1]) +
-                     "\n3rd : " + scores[2][0] + " score : " + str(scores[2][1]) +
-                     "\n4th : " + scores[3][0] + " score : " + str(scores[3][1]) +
-                     "\n5th : " + scores[4][0] + " score : " + str(scores[4][1])
-                     , align="center", font=("Unispace", 15, "normal"))
+    texttuetle.write("1ST : " + scores[0][0]   +
+                     "\n2ND : " + scores[1][0] +
+                     "\n3RD : " + scores[2][0] +
+                     "\n4TH : " + scores[3][0] +
+                     "\n5TH : " + scores[4][0]
+                     , align="left", font=("Unispace", 15, "normal"))
+    texttuetle.setposition(3*scale, -1.5 * scale)
+    texttuetle.write( "SCORE : " + str(scores[0][1]) +
+                     "\nSCORE : " + str(scores[1][1]) +
+                     "\nSCORE : " + str(scores[2][1]) +
+                     "\nSCORE : " + str(scores[3][1]) +
+                     "\nSCORE : " + str(scores[4][1])
+                      , align="right", font=("Unispace", 15, "normal"))
     texttuetle.color("black")
     texttuetle.setposition(0, -7 * scale)
     texttuetle.color("white")
@@ -326,9 +333,9 @@ def gamesummary(scores):
     target.turtlesize(scale / 20)
     target.speed(0)
     target.penup()
-    target.goto(5 * scale, 5 * scale)
+    target.goto(4 * scale, 4 * scale)
     user.turtlesize(scale / 20)
-    user.goto(-5 * scale, -5 * scale)
+    user.goto(-4 * scale, -4 * scale)
     user.color("yellow")
     while True:
         user.clear()
@@ -353,7 +360,7 @@ if __name__ == '__main__':
     texttuetle = texttuetle()
     while True:
         while stagecount < 5:
-            player = getname()
+            player = getname().upper()
             score = gameturn()
             scores.append([player, score])
             stagecount += 1

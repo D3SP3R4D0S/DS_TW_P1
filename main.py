@@ -85,6 +85,7 @@ def target():
 
 def move_right():
     if user.xcor() >= 5*scale:
+        user.setx(5*scale)
         return
     global tryCount
     tryCount -= 1
@@ -94,6 +95,7 @@ def move_right():
 
 def move_left():
     if user.xcor() <= -5*scale:
+        user.setx(-55 * scale)
         return
     global tryCount
     tryCount -= 1
@@ -103,6 +105,7 @@ def move_left():
 
 def move_up():
     if user.ycor() >= 5*scale:
+        user.sety(5 * scale)
         return
     global tryCount
     tryCount -= 1
@@ -112,6 +115,7 @@ def move_up():
 
 def move_down():
     if user.ycor() <= -5*scale:
+        user.sety(-5 * scale)
         return
     global tryCount
     tryCount -= 1
@@ -145,24 +149,21 @@ def targetmove():
     # 사용자가 각 사분면에 있을때의 행동이 변화한다
     # 사용자가 반대 되는 사분면에 있을경우 벽쪽으로 도망
     # 사용자가 맞은편 사분면에 있을경우 반대편 사분면으로 도망
-    x_to_user = x - user.xcor()
-    y_to_user = y - user.ycor()
-    # x to user + y to user +  동북쪽, case1
-    # x to user + y to user -  동남쪽, case2
-    # x to user - y to user +  서북쪽, case3
-    # x to user - y to user -  서남쪽, case4
-    if x >= 5*scale: # 타겟의 x 값이 scale을 넘을 경우
-        if y >= scale: # 타겟이 x y 가 모두 scale인경우
+    x_to_user = x - user.xcor() # 사용자와 x 축으로 떨어진 거리 값
+    y_to_user = y - user.ycor() # 사용자와 y 축으로 떨어진 거리 값
+
+    if x >= 5*scale: # 타겟의 x 값이 5scale을 넘을 경우
+        if y >= 5*scale: # 타겟이 x y 가 모두 5scale인경우
             if abs(x_to_user) > abs(y_to_user):
-                target.setx(x - scale) # x 로 떨어진 거리가 더 클경우 x 값을 감소시킨다
+                target.sety(y - scale) # x 로 떨어진 거리가 더 클경우 y 값을 감소시킨다
             else:
-                target.sety(y - scale) # y 로 떨어진 거리가 더 클경우 y 값을 감소시킨다
-        elif y <= 0: # x > scale y  < 0
+                target.setx(x - scale) # y 로 떨어진 거리가 더 클경우 x 값을 감소시킨다
+        elif y <= -5*scale: # x > scale y  < 0
             if abs(x_to_user) > abs(y_to_user):
-                target.setx(x - scale) # x 떨어진 거리가 더클경우 x 값을 감소시킨다
+                target.sety(y + scale) # x 떨어진 거리가 더클경우 y 값을 감소시킨다
             else:
-                target.sety(y + scale) # y 로 떨어진 거리가 더 클경우 y 값을 증가시킨다 ( y 가 max 값임)
-        else:
+                 target.setx(x - scale) # y 로 떨어진 거리가 더 클경우 x 값을 증가시킨다 ( y 가 max 값임)
+        else: # x 축 선상 ( 5scale ) 에 있을 경우
             # move y or move x -
             if abs(x_to_user) > abs(y_to_user): # x로 떨어진 값이 더 클경우 x 를 감소시킨다
                 target.setx(x - scale)
@@ -171,50 +172,50 @@ def targetmove():
             elif y_to_user < 0: # 음수값일경우 (사용자보다 아래에 있음
                 target.sety(y - scale) # y 의 음의 방향으로 도망간다
             else: # y의 축이 사용자와 같을경우
-                if y > 50:
-                    target.sety(y - scale)
-                elif y < 50:
+                if y > 0:
                     target.sety(y + scale)
+                elif y < 0:
+                    target.sety(y - scale)
     elif x <= -5*scale:
-        if y >= scale:
+        if y >= 5*scale: # 타겟이 x 가 -5 , y 가 +5 인경우
             if abs(x_to_user) > abs(y_to_user):
-                target.setx(x+scale)
+                target.sety(y - scale)
             else:
-                target.sety(y-scale)
-            # move x or move y -
-        elif y <= 0:
-            if abs(x_to_user) > abs(y_to_user):
-                target.setx(x+scale)
-            else:
-                target.sety(y+scale)
-        else:
-            if abs(x_to_user) > abs(y_to_user):
                 target.setx(x + scale)
+            # move x or move y -
+        elif y <= -5*scale: # 타겟이 x y 가 모두 -5 인경우
+            if abs(x_to_user) > abs(y_to_user):
+                target.sety(y + scale)
+            else:
+                target.setx(x + scale)
+        else: # x 축 선상 ( -5scale ) 에 있을 경우
+            if abs(x_to_user) > abs(y_to_user):
+                target.sety(y + scale)
             elif y_to_user > 0:  # y 로 사용자와 양수값 ( 사용자보다 위에 있음)
                 target.sety(y + scale)  # y 의 양의 방향으로 도망간다
             elif y_to_user < 0:  # 음수값일경우 (사용자보다 아래에 있음
                 target.sety(y - scale)  # y 의 음의 방향으로 도망간다
-            else: # y의 축이 사용자와 같을경우
-                if y > 50:
-                    target.sety(y - scale)
-                elif y < 50:
-                    target.sety(y + scale)
-    elif y >= 5*scale:
+            else: # y의 축이 사용자와 같을경우 빈공간이 많은 쪽으로 이동한다
+                if y > 0:
+                    target.sety(y - scale) # y 값이 양수일경우 아래쪽이 비어있어 아래로 이동
+                elif y < 0:
+                    target.sety(y + scale) # y값이 음수일경우 위쪽이 비어있어 위로 이동
+    elif y >= 5*scale:# y 축 선상 ( 5scale ) 에 있을 경우
         # move x or move y -
         if abs(y_to_user) > abs(x_to_user):
-            target.sety(y-scale)
+            target.sety(y-scale)  # y로 떨어진 거리가 많으면 y 값을 줄여본다
         elif x_to_user > 0:
-            target.setx(x+scale)
-        elif x_to_user < 0:
-            target.setx(x-scale)
+            target.setx(x+scale) # x 와 가까우면 x 축을 이동한다
+        else:
+            target.setx(x-scale) # x 와 음수로 떨어졌을경우 x 와 멀어진다
         # move y or move x -
-    elif y <= -5*scale:
+    elif y <= -5*scale:# y 축 선상 ( -5scale ) 에 있을 경우
         if abs(y_to_user) > abs(x_to_user):
-            target.sety(y + scale)
+            target.sety(y + scale) # y로 떨어진 거리가 많으면 y 값을 늘려본다
         elif x_to_user > 0:
-            target.setx(x+scale)
-        elif x_to_user < 0:
-            target.setx(x-scale)
+            target.setx(x+scale) # x 와 가까우면 x 축을 이동한다
+        else:
+            target.setx(x-scale) #x 와 음수로 떨어졌을경우 x 와 멀어진다
         # move y or move x -
     else:
         if x_to_user > 0:
@@ -280,7 +281,7 @@ def gameturn():
         screen.onkeypress(move_down, "Down")
         screen.listen()
         if user.xcor() > 5*scale:
-            user.setx(10*scale)
+            user.setx(5*scale)
         elif user.xcor() < -5*scale:
             user.setx(-5*scale)
 
@@ -292,7 +293,7 @@ def gameturn():
         if oldcount != tryCount:
             showscore()
             oldcount = tryCount
-        if user.distance(target) < 1:
+        if user.distance(target) < 1 or tryCount == 0:
             user.reset()
             screen.reset()
             target.reset()

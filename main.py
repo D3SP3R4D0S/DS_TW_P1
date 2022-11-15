@@ -26,7 +26,7 @@ def init():
     screen = t.Screen()
     screen.setup(20*scale,20*scale)
     # 스크린 배경색 지정
-    screen.bgcolor("white")
+    screen.bgcolor("black")
     screen.tracer(2)
     return screen
 
@@ -34,7 +34,8 @@ def init():
 def user():
     # 유저 객체 생성
     turtle = t.Turtle()
-    turtle.shape("turtle")
+    turtle.shape("circle")
+    turtle.color("yellow")
     return turtle
 
 
@@ -42,39 +43,43 @@ def fence():
     # 울타리 그리기
     fence = t.Turtle()
     fence.penup()
-    fence.setposition(-5*scale-10, -5*scale-10)
+    fence.hideturtle()
+    fence.setposition(-5.5*scale, -5.5*scale)
+    fence.color("blue")
     fence.pendown()
-    fence.pensize(2)
+    fence.pensize(4)
     for x in range(4):
-        fence.forward(10*scale+20)
+        fence.forward(11*scale)
         fence.left(90)
+    fence.color("midnightBlue")
+    fence.pensize(1)
+    for i in range(10):
+        fence.penup()
+        fence.goto(-5.5 * scale, (i - 4.5) * scale)
+        fence.pendown()
+        fence.goto(+5.5 * scale, (i - 4.5) * scale)
+        fence.penup()
+
+    for i in range(10):
+        fence.penup()
+        fence.goto((i - 4.5) * scale, -5.5 * scale)
+        fence.pendown()
+        fence.goto((i - 4.5) * scale, +5.5 * scale)
+        fence.penup()
     fence.hideturtle()
 
 
-def scoreBoard():
-    #점수표 그리기
-    scoreboard = t.Turtle()
-    scoreboard.penup()
-    scoreboard.setposition(-160, 6*scale+60)
-    scoreboard.pendown()
-    scoreboard.pensize(2)
-    for x in range(4):
-        if x % 2 == 0:
-            scoreboard.forward(160)
-            scoreboard.right(90)
-        else:
-            scoreboard.forward(65)
-            scoreboard.right(90)
-    scoreboard.hideturtle()
+def texttuetle():
+    texttuetle = t.Turtle()
+    texttuetle.penup()
+    texttuetle.hideturtle()
+    return texttuetle
 
 
 def target():
-    target = t.Turtle() #목표지점1
-    target.color("red")
+    target = t.Turtle()
     target.shape("square")
-    target.speed(0)
     target.penup()
-    target.goto(random.randint(0,10)*scale, random.randint(0, 10)*scale)
     return target
 
 
@@ -117,6 +122,19 @@ def move_down():
 def getname():
     name = t.textinput("터틀게임", "플레이어 이름을 입력하세요")
     return name
+
+
+def showscore():
+    texttuetle.clear()
+    texttuetle.penup()
+    texttuetle.hideturtle()
+    texttuetle.setposition(-6 * scale, 6 * scale)
+    texttuetle.color("white")
+    texttuetle.write("SCORE : " + str(tryCount), align="left", font=("Unispace", 15, "normal"))
+    texttuetle.setposition(0, 6 * scale)
+    texttuetle.write("PLAYER : " + player, align="center", font=("Unispace", 15, "normal"))
+    texttuetle.setposition(6 * scale, 6 * scale)
+    texttuetle.write("STAGE : " + str(stagecount), align="right", font=("Unispace", 15, "normal"))
 
 
 def targetmove():
@@ -231,11 +249,7 @@ def targetmove():
                 target.setx(x-scale)
             elif a == 4:
                 target.setx(x+scale)
-    t.clear()
-    t.write("PLAYER : " + player +
-            "\nSCORE : " + str(tryCount) +
-            "\nPOSITION : " + str(user.position()) +
-            "\nTARGET : " + str(target.position()))
+    showscore()
 
 
 def gameturn():
@@ -243,12 +257,15 @@ def gameturn():
     tryCount = 0
     oldcount = -1
     fence()
-    scoreBoard()
+    # scoreBoard()
     user.goto(-5*scale, -5*scale)
-    target.color("red")
+    user.color("yellow")
+    user.turtlesize(scale/20)
+    target.color("pink")
     target.speed(0)
     target.penup()
     target.goto(random.randint(-5, 5)*scale, random.randint(-5,5)*scale)
+    target.turtlesize(scale/20)
     beforemoved = 0
     while True:
         user.clear()
@@ -273,14 +290,7 @@ def gameturn():
             user.sety(-5*scale)
 
         if oldcount != tryCount:
-            t.clear()
-            t.penup()
-            t.hideturtle()
-            t.setposition(-150, 6*scale)
-            t.write("PLAYER : " + player +
-                    "\nSCORE : " + str(tryCount) +
-                    "\nPOSITION : " + str(user.position()) +
-                    "\nTARGET : " + str(target.position()))
+            showscore()
 
         oldcount = tryCount
         if user.distance(target) < 1:
@@ -291,45 +301,62 @@ def gameturn():
     return tryCount
 
 
+def gamesummary(scores):
+    scores.sort(key=lambda x: x[1])
+    print(scores)
+    fence()
+    texttuetle.clear()
+    texttuetle.penup()
+    texttuetle.hideturtle()
+    texttuetle.color("white")
+    # t.write("1st : " + scores[0][0] + " score : " + str(scores[0][1]), align="center", font=("Unispace", 15, "normal")) # 디버깅을 위해 하나만 표시
+    texttuetle.setposition(0, -1.5 * scale)
+    texttuetle.color("white")
+    texttuetle.write("1st : " + scores[0][0] + " score : " + str(scores[0][1]) +
+                     "\n2nd : " + scores[1][0] + " score : " + str(scores[1][1]) +
+                     "\n3rd : " + scores[2][0] + " score : " + str(scores[2][1]) +
+                     "\n4th : " + scores[3][0] + " score : " + str(scores[3][1]) +
+                     "\n5th : " + scores[4][0] + " score : " + str(scores[4][1])
+                     , align="center", font=("Unispace", 15, "normal"))
+    texttuetle.color("black")
+    texttuetle.setposition(0, -7 * scale)
+    texttuetle.color("white")
+    texttuetle.write("please go to target to restart", align="center", font=("Unispace", 15, "normal"))
+    target.color("DarkOliveGreen1")
+    target.turtlesize(scale / 20)
+    target.speed(0)
+    target.penup()
+    target.goto(5 * scale, 5 * scale)
+    user.turtlesize(scale / 20)
+    user.goto(-5 * scale, -5 * scale)
+    user.color("yellow")
+    while True:
+        user.clear()
+        screen.onkeypress(move_right, "Right")
+        screen.onkeypress(move_left, "Left")
+        screen.onkeypress(move_up, "Up")
+        screen.onkeypress(move_down, "Down")
+        if user.distance(target) < 1:
+            user.reset()
+            screen.reset()
+            target.reset()
+            break
+
 
 if __name__ == '__main__':
     stagecount = 0
-    scale = 20
+    scale = 40
     scores = []
     user = user()
     target = target()
     screen = init()
+    texttuetle = texttuetle()
     while True:
         while stagecount < 5:
             player = getname()
             score = gameturn()
-
             scores.append([player, score])
             stagecount += 1
-
-        scores.sort(key=lambda x: x[1])
-        print(scores)
-        t.clear()
-        t.write("1st : " + scores[0][0] + " score : " + str(scores[0][1]) +
-                "\n2nd : " + scores[1][0] + " score : " + str(scores[1][1]) +
-                "\n3rd : " + scores[2][0] + " score : " + str(scores[2][1]) +
-                "\n4th : " + scores[3][0] + " score : " + str(scores[3][1]) +
-                "\n5th : " + scores[4][0] + " score : " + str(scores[4][1]) +
-                "\nplease go to target to restart")
-        target.color("red")
-        target.speed(0)
-        target.penup()
-        target.goto(5*scale, 5*scale)
-        while True:
-            user.clear()
-            screen.onkeypress(move_right, "Right")
-            screen.onkeypress(move_left, "Left")
-            screen.onkeypress(move_up, "Up")
-            screen.onkeypress(move_down, "Down")
-            if user.distance(target) < 1:
-                user.reset()
-                screen.reset()
-                target.reset()
-                scores = []
-                stagecount = 0
-                break
+        gamesummary(scores)
+        scores = []
+        stagecount = 0

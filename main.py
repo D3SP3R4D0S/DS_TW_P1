@@ -51,6 +51,21 @@ def fence():
     for x in range(4):
         fence.forward(11*scale)
         fence.left(90)
+    fence.color("midnightBlue")
+    fence.pensize(1)
+    for i in range(10):
+        fence.penup()
+        fence.goto(-5.5 * scale, (i - 4.5) * scale)
+        fence.pendown()
+        fence.goto(+5.5 * scale, (i - 4.5) * scale)
+        fence.penup()
+
+    for i in range(10):
+        fence.penup()
+        fence.goto((i - 4.5) * scale, -5.5 * scale)
+        fence.pendown()
+        fence.goto((i - 4.5) * scale, +5.5 * scale)
+        fence.penup()
     fence.hideturtle()
 
 
@@ -62,12 +77,9 @@ def texttuetle():
 
 
 def target():
-    target = t.Turtle() #목표지점1
-    target.color("red")
+    target = t.Turtle()
     target.shape("square")
-    target.speed(0)
     target.penup()
-    target.goto(random.randint(0,10)*scale, random.randint(0, 10)*scale)
     return target
 
 

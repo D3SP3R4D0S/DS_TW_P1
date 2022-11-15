@@ -42,11 +42,11 @@ def fence():
     # 울타리 그리기
     fence = t.Turtle()
     fence.penup()
-    fence.setposition(-6*scale, -6*scale)
+    fence.setposition(-5*scale-10, -5*scale-10)
     fence.pendown()
     fence.pensize(2)
     for x in range(4):
-        fence.forward(12*scale)
+        fence.forward(10*scale+20)
         fence.left(90)
     fence.hideturtle()
 
@@ -55,15 +55,15 @@ def scoreBoard():
     #점수표 그리기
     scoreboard = t.Turtle()
     scoreboard.penup()
-    scoreboard.setposition(-150, 110+10*scale)
+    scoreboard.setposition(-160, 6*scale+60)
     scoreboard.pendown()
     scoreboard.pensize(2)
     for x in range(4):
         if x % 2 == 0:
-            scoreboard.forward(130)
+            scoreboard.forward(160)
             scoreboard.right(90)
         else:
-            scoreboard.forward(60)
+            scoreboard.forward(65)
             scoreboard.right(90)
     scoreboard.hideturtle()
 
@@ -276,7 +276,7 @@ def gameturn():
             t.clear()
             t.penup()
             t.hideturtle()
-            t.setposition(-150, 50)
+            t.setposition(-150, 6*scale)
             t.write("PLAYER : " + player +
                     "\nSCORE : " + str(tryCount) +
                     "\nPOSITION : " + str(user.position()) +

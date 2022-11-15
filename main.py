@@ -1,4 +1,4 @@
-# 100x100의 맵이 있고, 맵에서의 움직임은 좌,우,위,아래 (대각석 x)로 움직임이 가능하다.
+# 10*scalex10*scale의 맵이 있고, 맵에서의 움직임은 좌,우,위,아래 (대각석 x)로 움직임이 가능하다.
 #
 # 처음 임의로 설정된 목표
 # 처음 (0,0)에 설정된 터틀을 통해서
@@ -24,7 +24,7 @@ import random
 def init():
     # 스크린 객체 생성
     screen = t.Screen()
-    screen.setup(400,300)
+    screen.setup(20*scale,20*scale)
     # 스크린 배경색 지정
     screen.bgcolor("white")
     screen.tracer(2)
@@ -42,11 +42,11 @@ def fence():
     # 울타리 그리기
     fence = t.Turtle()
     fence.penup()
-    fence.setposition(-10, -10)
+    fence.setposition(-6*scale, -6*scale)
     fence.pendown()
     fence.pensize(2)
     for x in range(4):
-        fence.forward(120)
+        fence.forward(12*scale)
         fence.left(90)
     fence.hideturtle()
 
@@ -55,7 +55,7 @@ def scoreBoard():
     #점수표 그리기
     scoreboard = t.Turtle()
     scoreboard.penup()
-    scoreboard.setposition(-150, 110)
+    scoreboard.setposition(-150, 110+10*scale)
     scoreboard.pendown()
     scoreboard.pensize(2)
     for x in range(4):
@@ -74,44 +74,44 @@ def target():
     target.shape("square")
     target.speed(0)
     target.penup()
-    target.goto(random.randint(0,10)*10, random.randint(0, 10)*10)
+    target.goto(random.randint(0,10)*scale, random.randint(0, 10)*scale)
     return target
 
 
 def move_right():
-    if user.xcor() >= 100:
+    if user.xcor() >= 5*scale:
         return
     global tryCount
     tryCount += 1
     user.setheading(0)
-    user.forward(10)
+    user.forward(1*scale)
 
 
 def move_left():
-    if user.xcor() <= 0:
+    if user.xcor() <= -5*scale:
         return
     global tryCount
     tryCount += 1
     user.setheading(180)
-    user.forward(10)
+    user.forward(1*scale)
 
 
 def move_up():
-    if user.ycor() >= 100:
+    if user.ycor() >= 5*scale:
         return
     global tryCount
     tryCount += 1
     user.setheading(90)
-    user.forward(10)
+    user.forward(1*scale)
 
 
 def move_down():
-    if user.ycor() <= 0:
+    if user.ycor() <= -5*scale:
         return
     global tryCount
     tryCount += 1
     user.setheading(270)
-    user.forward(10)
+    user.forward(1*scale)
 
 
 def getname():
@@ -123,7 +123,7 @@ def targetmove():
     x = target.xcor()
     y = target.ycor()
     # 알고리즘 구성
-    # 4분면으로 나눈다 각 0~50 50~100 씩 x y 좌표로 할당
+    # 4분면으로 나눈다 각 0~50 50~scale 씩 x y 좌표로 할당
     # 사용자가 각 사분면에 있을때의 행동이 변화한다
     # 사용자가 반대 되는 사분면에 있을경우 벽쪽으로 도망
     # 사용자가 맞은편 사분면에 있을경우 반대편 사분면으로 도망
@@ -133,104 +133,104 @@ def targetmove():
     # x to user + y to user -  동남쪽, case2
     # x to user - y to user +  서북쪽, case3
     # x to user - y to user -  서남쪽, case4
-    if x >= 100: # 타겟의 x 값이 100을 넘을 경우
-        if y >= 100: # 타겟이 x y 가 모두 100인경우
+    if x >= 5*scale: # 타겟의 x 값이 scale을 넘을 경우
+        if y >= scale: # 타겟이 x y 가 모두 scale인경우
             if abs(x_to_user) > abs(y_to_user):
-                target.setx(x - 10) # x 로 떨어진 거리가 더 클경우 x 값을 감소시킨다
+                target.setx(x - scale) # x 로 떨어진 거리가 더 클경우 x 값을 감소시킨다
             else:
-                target.sety(y - 10) # y 로 떨어진 거리가 더 클경우 y 값을 감소시킨다
-        elif y <= 0: # x > 100 y  < 0
+                target.sety(y - scale) # y 로 떨어진 거리가 더 클경우 y 값을 감소시킨다
+        elif y <= 0: # x > scale y  < 0
             if abs(x_to_user) > abs(y_to_user):
-                target.setx(x - 10) # x 떨어진 거리가 더클경우 x 값을 감소시킨다
+                target.setx(x - scale) # x 떨어진 거리가 더클경우 x 값을 감소시킨다
             else:
-                target.sety(y + 10) # y 로 떨어진 거리가 더 클경우 y 값을 증가시킨다 ( y 가 max 값임)
+                target.sety(y + scale) # y 로 떨어진 거리가 더 클경우 y 값을 증가시킨다 ( y 가 max 값임)
         else:
             # move y or move x -
             if abs(x_to_user) > abs(y_to_user): # x로 떨어진 값이 더 클경우 x 를 감소시킨다
-                target.setx(x - 10)
+                target.setx(x - scale)
             elif y_to_user > 0: # y 로 사용자와 양수값 ( 사용자보다 위에 있음)
-                target.sety(y + 10) # y 의 양의 방향으로 도망간다
+                target.sety(y + scale) # y 의 양의 방향으로 도망간다
             elif y_to_user < 0: # 음수값일경우 (사용자보다 아래에 있음
-                target.sety(y - 10) # y 의 음의 방향으로 도망간다
+                target.sety(y - scale) # y 의 음의 방향으로 도망간다
             else: # y의 축이 사용자와 같을경우
                 if y > 50:
-                    target.sety(y - 10)
+                    target.sety(y - scale)
                 elif y < 50:
-                    target.sety(y + 10)
-    elif x <= 0:
-        if y >= 100:
+                    target.sety(y + scale)
+    elif x <= -5*scale:
+        if y >= scale:
             if abs(x_to_user) > abs(y_to_user):
-                target.setx(x+10)
+                target.setx(x+scale)
             else:
-                target.sety(y-10)
+                target.sety(y-scale)
             # move x or move y -
         elif y <= 0:
             if abs(x_to_user) > abs(y_to_user):
-                target.setx(x+10)
+                target.setx(x+scale)
             else:
-                target.sety(y+10)
+                target.sety(y+scale)
         else:
             if abs(x_to_user) > abs(y_to_user):
-                target.setx(x + 10)
+                target.setx(x + scale)
             elif y_to_user > 0:  # y 로 사용자와 양수값 ( 사용자보다 위에 있음)
-                target.sety(y + 10)  # y 의 양의 방향으로 도망간다
+                target.sety(y + scale)  # y 의 양의 방향으로 도망간다
             elif y_to_user < 0:  # 음수값일경우 (사용자보다 아래에 있음
-                target.sety(y - 10)  # y 의 음의 방향으로 도망간다
+                target.sety(y - scale)  # y 의 음의 방향으로 도망간다
             else: # y의 축이 사용자와 같을경우
                 if y > 50:
-                    target.sety(y - 10)
+                    target.sety(y - scale)
                 elif y < 50:
-                    target.sety(y + 10)
-    elif y >= 100:
+                    target.sety(y + scale)
+    elif y >= 5*scale:
         # move x or move y -
         if abs(y_to_user) > abs(x_to_user):
-            target.sety(y-10)
+            target.sety(y-scale)
         elif x_to_user > 0:
-            target.setx(x+10)
+            target.setx(x+scale)
         elif x_to_user < 0:
-            target.setx(x-10)
+            target.setx(x-scale)
         # move y or move x -
-    elif y <= 0:
+    elif y <= -5*scale:
         if abs(y_to_user) > abs(x_to_user):
-            target.sety(y + 10)
+            target.sety(y + scale)
         elif x_to_user > 0:
-            target.setx(x+10)
+            target.setx(x+scale)
         elif x_to_user < 0:
-            target.setx(x-10)
+            target.setx(x-scale)
         # move y or move x -
     else:
         if x_to_user > 0:
             if y_to_user > 0:
                 if abs(y_to_user) > abs(x_to_user):
-                    target.setx(x + 10)
+                    target.setx(x + scale)
                 else:
-                    target.sety(y + 10)
+                    target.sety(y + scale)
             else:
                 if abs(y_to_user) > abs(x_to_user):
-                    target.setx(x + 10)
+                    target.setx(x + scale)
                 else:
-                    target.sety(y - 10)
+                    target.sety(y - scale)
         elif x_to_user < 0:
             if y_to_user > 0:
                 if abs(y_to_user) > abs(x_to_user):
-                    target.setx(x - 10)
+                    target.setx(x - scale)
                 else:
-                    target.sety(y + 10)
+                    target.sety(y + scale)
             else:
                 if abs(y_to_user) > abs(x_to_user):
-                    target.setx(x - 10)
+                    target.setx(x - scale)
                 else:
-                    target.sety(y - 10)
+                    target.sety(y - scale)
         else:
             a = random.randint(1,5)
             if a == 1:
-                target.sety(y-10)
+                target.sety(y-scale)
             elif a == 2:
-                target.sety(y+10)
+                target.sety(y+scale)
             elif a == 3:
-                target.setx(x-10)
+                target.setx(x-scale)
             elif a == 4:
-                target.setx(x+10)
+                target.setx(x+scale)
     t.clear()
     t.write("PLAYER : " + player +
             "\nSCORE : " + str(tryCount) +
@@ -244,11 +244,11 @@ def gameturn():
     oldcount = -1
     fence()
     scoreBoard()
-    user.goto(0, 0)
+    user.goto(-5*scale, -5*scale)
     target.color("red")
     target.speed(0)
     target.penup()
-    target.goto(random.randint(0, 10) * 10, random.randint(0, 10) * 10)
+    target.goto(random.randint(-5, 5)*scale, random.randint(-5,5)*scale)
     beforemoved = 0
     while True:
         user.clear()
@@ -262,15 +262,15 @@ def gameturn():
         screen.onkeypress(move_up, "Up")
         screen.onkeypress(move_down, "Down")
         screen.listen()
-        if user.xcor() > 100:
-            user.setx(100)
-        elif user.xcor() < 0:
-            user.setx(0)
+        if user.xcor() > 5*scale:
+            user.setx(10*scale)
+        elif user.xcor() < -5*scale:
+            user.setx(-5*scale)
 
-        if user.ycor() > 100:
-            user.sety(100)
-        elif user.ycor() < 0:
-            user.sety(0)
+        if user.ycor() > 5*scale:
+            user.sety(5*scale)
+        elif user.ycor() < -5*scale:
+            user.sety(-5*scale)
 
         if oldcount != tryCount:
             t.clear()
@@ -294,6 +294,7 @@ def gameturn():
 
 if __name__ == '__main__':
     stagecount = 0
+    scale = 20
     scores = []
     user = user()
     target = target()
@@ -318,7 +319,7 @@ if __name__ == '__main__':
         target.color("red")
         target.speed(0)
         target.penup()
-        target.goto(100, 100)
+        target.goto(5*scale, 5*scale)
         while True:
             user.clear()
             screen.onkeypress(move_right, "Right")

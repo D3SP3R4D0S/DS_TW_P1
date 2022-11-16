@@ -32,10 +32,10 @@ def init():
 
 
 def user():
+    t.addshape("images\packman.gif")
     # 유저 객체 생성
     turtle = t.Turtle()
-    turtle.shape("circle")
-    turtle.color("yellow")
+    turtle.shape("images\packman.gif")
     return turtle
 
 
@@ -77,8 +77,9 @@ def texttuetle():
 
 
 def target():
+    t.addshape("images\ghost.gif")
     target = t.Turtle()
-    target.shape("square")
+    target.shape("images\ghost.gif")
     target.penup()
     return target
 

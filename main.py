@@ -32,10 +32,14 @@ def init():
 
 
 def user():
-    t.addshape("images\packman.gif")
+    # 유저 Shape 추가 (상, 하, 좌, 우 각각의 형상 추가)
+    t.addshape("images\packman_0.gif")
+    t.addshape("images\packman_90.gif")
+    t.addshape("images\packman_180.gif")
+    t.addshape("images\packman_270.gif")
     # 유저 객체 생성
     turtle = t.Turtle()
-    turtle.shape("images\packman.gif")
+    turtle.shape("images\packman_0.gif")
     return turtle
 
 
@@ -77,7 +81,9 @@ def texttuetle():
 
 
 def target():
+    # 타겟 Shape 추가
     t.addshape("images\ghost.gif")
+    # 타겟 객체 생성
     target = t.Turtle()
     target.shape("images\ghost.gif")
     target.penup()
@@ -91,16 +97,18 @@ def move_right():
     global tryCount
     tryCount -= 1
     user.setheading(0)
+    user.shape("images\packman_0.gif")
     user.forward(1*scale)
 
 
 def move_left():
     if user.xcor() <= -5*scale:
-        user.setx(-55 * scale)
+        user.setx(-5 * scale)
         return
     global tryCount
     tryCount -= 1
     user.setheading(180)
+    user.shape("images\packman_180.gif")
     user.forward(1*scale)
 
 
@@ -111,6 +119,7 @@ def move_up():
     global tryCount
     tryCount -= 1
     user.setheading(90)
+    user.shape("images\packman_90.gif")
     user.forward(1*scale)
 
 
@@ -121,6 +130,7 @@ def move_down():
     global tryCount
     tryCount -= 1
     user.setheading(270)
+    user.shape("images\packman_270.gif")
     user.forward(1*scale)
 
 
@@ -260,10 +270,11 @@ def gameturn():
     oldcount = 101
     fence()
     # scoreBoard()
+    user.penup()
     user.goto(-5*scale, -5*scale)
-    user.color("yellow")
+    # user.color("yellow")
     user.turtlesize(scale/20)
-    target.color("pink")
+    # target.color("pink")
     target.speed(0)
     target.penup()
     target.goto(random.randint(-5, 5)*scale, random.randint(-5,5)*scale)

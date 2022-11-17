@@ -16,9 +16,11 @@
 # 이를 통해 총 5번의 게임이 이루어졌을 때 시도횟수와 사용자이름을 기록하여 이를 정렬하여 보여주어라.
 #
 # 제출자료 : 아이디어에 대한 간단한 정리문서(word 혹은 hwp), 프로그램코드
+import math
 import time
 import turtle as t
 import random
+import threading
 
 
 def init():
@@ -54,6 +56,15 @@ def fence(crossline = True):
     fence.pensize(4)
     for x in range(4):
         fence.forward(11*scale)
+        fence.left(90)
+    fence.penup()
+    fence.hideturtle()
+    fence.setposition(-5.7 * scale, -5.7 * scale)
+    fence.color("blue")
+    fence.pendown()
+    fence.pensize(2)
+    for x in range(4):
+        fence.forward(11.4 * scale)
         fence.left(90)
     if crossline:
         fence.color("midnightBlue")
@@ -153,6 +164,7 @@ def showscore():
 
 
 def targetmove():
+def targetmove1():
     x = target.xcor()
     y = target.ycor()
     # 알고리즘 구성
@@ -264,6 +276,38 @@ def targetmove():
     showscore()
 
 
+def targetmove():
+    x = target.xcor()
+    y = target.ycor()
+    # 이동할 x, 이동할 y 좌표, 벽까지의 거리 를 기본으로 넣는다.
+    up = [x + scale, y, abs(5*scale - (x + scale))]
+    down = [x - scale, y, abs(-5*scale - (x - scale))]
+    right = [x, y + scale, abs(5*scale - (y + scale))]
+    left = [x, y - scale, abs(-5*scale - (y - scale))]
+    allcase = [up, down, right, left]
+    possablecase = []
+    for case in allcase:
+        casetouserx = abs(case[0]-user.xcor())
+        casetousery = abs(case[1]-user.ycor())
+        if abs(case[0]) <= 5*scale and abs(case[1]) <= 5*scale:
+            casetouser = math.sqrt(casetouserx**2 + casetousery**2)
+            case.append(casetouser)
+            possablecase.append(case)
+    possablecase.sort(key=lambda x: x[3], reverse = True)
+    print(possablecase)
+    bestcases = []
+    for case in possablecase:
+        if case[3] == possablecase[0][3]:
+            case[0]
+            bestcases.append(case)
+    print(bestcases)
+    bestcases.sort(key=lambda x: x[2], reverse = True)
+    bestcase = bestcases[0]
+    print(bestcase)
+    time.sleep(0.1)
+    target.setposition(bestcase[0], bestcase[1])
+
+
 def gameturn():
     global tryCount
     tryCount = 100
@@ -279,29 +323,31 @@ def gameturn():
     target.penup()
     target.goto(random.randint(-5, 5)*scale, random.randint(-5,5)*scale)
     target.turtlesize(scale/20)
-    beforemoved = 101
+    beforemoved = 100
     while True:
         user.clear()
+        if user.distance(target) < 1 or tryCount == 0:
+            user.reset()
+            screen.reset()
+            target.reset()
+            break
         if (tryCount+2)%3 == 0 and beforemoved != tryCount:
             targetmove()
-            time.sleep(0.1)
             targetmove()
             beforemoved = tryCount
+        screen.listen()
         screen.onkeypress(move_right, "Right")
         screen.onkeypress(move_left, "Left")
         screen.onkeypress(move_up, "Up")
         screen.onkeypress(move_down, "Down")
-        screen.listen()
         if user.xcor() > 5*scale:
             user.setx(5*scale)
         elif user.xcor() < -5*scale:
             user.setx(-5*scale)
-
         if user.ycor() > 5*scale:
             user.sety(5*scale)
         elif user.ycor() < -5*scale:
             user.sety(-5*scale)
-
         if oldcount != tryCount:
             showscore()
             oldcount = tryCount

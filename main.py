@@ -20,8 +20,6 @@ import math
 import time
 import turtle as t
 import random
-import threading
-
 
 def init():
     # 스크린 객체 생성
@@ -35,6 +33,7 @@ def init():
 
 def user():
     # 유저 Shape 추가 (상, 하, 좌, 우 각각의 형상 추가)
+    t.addshape("images\circle.gif")
     t.addshape("images\packman_0.gif")
     t.addshape("images\packman_90.gif")
     t.addshape("images\packman_180.gif")
@@ -109,6 +108,8 @@ def move_right():
     tryCount -= 1
     user.setheading(0)
     user.shape("images\packman_0.gif")
+    global beforemove
+    beforemove = 0
     user.forward(1*scale)
 
 
@@ -120,6 +121,8 @@ def move_left():
     tryCount -= 1
     user.setheading(180)
     user.shape("images\packman_180.gif")
+    global beforemove
+    beforemove = 180
     user.forward(1*scale)
 
 
@@ -131,6 +134,8 @@ def move_up():
     tryCount -= 1
     user.setheading(90)
     user.shape("images\packman_90.gif")
+    global beforemove
+    beforemove = 90
     user.forward(1*scale)
 
 
@@ -142,6 +147,8 @@ def move_down():
     tryCount -= 1
     user.setheading(270)
     user.shape("images\packman_270.gif")
+    global beforemove
+    beforemove = 270
     user.forward(1*scale)
 
 
@@ -323,8 +330,25 @@ def gameturn():
     target.goto(random.randint(-5, 5)*scale, random.randint(-5,5)*scale)
     target.turtlesize(scale/20)
     beforemoved = 100
+    changedtime = time.time()
+    userstat = 0
     while True:
         user.clear()
+        if abs(changedtime - time.time()) > 0.3 and userstat == 1:
+            user.shape("images\circle.gif")
+            changedtime = time.time()
+            userstat = 0
+        if abs(changedtime - time.time()) > 0.3 and userstat == 0:
+            if beforemove == 0:
+                user.shape("images\packman_0.gif")
+            elif beforemove == 90:
+                user.shape("images\packman_90.gif")
+            elif beforemove == 180:
+                user.shape("images\packman_180.gif")
+            elif beforemove == 270:
+                user.shape("images\packman_270.gif")
+            changedtime = time.time()
+            userstat = 1
         if user.distance(target) < 1 or tryCount == 0:
             user.reset()
             screen.reset()
@@ -409,6 +433,7 @@ def gamesummary(scores):
 
 if __name__ == '__main__':
     stagecount = 0
+    beforemove = 0
     scale = 40
     scores = []
     user = user()

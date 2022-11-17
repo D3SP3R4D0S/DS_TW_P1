@@ -21,10 +21,11 @@ import time
 import turtle as t
 import random
 
+
 def init():
     # 스크린 객체 생성
     screen = t.Screen()
-    screen.setup(20*scale,20*scale)
+    screen.setup(16*scale,16*scale)
     # 스크린 배경색 지정
     screen.bgcolor("black")
     screen.tracer(2)
@@ -167,7 +168,7 @@ def showscore():
     texttuetle.setposition(0, 6 * scale)
     texttuetle.write("PLAYER : " + player, align="center", font=("Unispace", 15, "normal"))
     texttuetle.setposition(6 * scale, 6 * scale)
-    texttuetle.write("STAGE : " + str(stagecount), align="right", font=("Unispace", 15, "normal"))
+    texttuetle.write("STAGE : " + str(stagecount + 1), align="right", font=("Unispace", 15, "normal"))
 
 
 def targetmove():
@@ -239,6 +240,7 @@ def gameturn():
             changedtime = time.time()
             userstat = 1
         if user.distance(target) < 1 or tryCount == 0:
+            time.sleep(0.3)
             user.reset()
             screen.reset()
             target.reset()
@@ -264,6 +266,7 @@ def gameturn():
             showscore()
             oldcount = tryCount
         if user.distance(target) < 1 or tryCount == 0:
+            time.sleep(0.3)
             user.reset()
             screen.reset()
             target.reset()
@@ -331,6 +334,7 @@ def gamesummary(scores):
         screen.onkeypress(move_up, "Up")
         screen.onkeypress(move_down, "Down")
         if user.distance(target) < 1:
+            time.sleep(0.3)
             user.reset()
             screen.reset()
             target.reset()

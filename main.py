@@ -163,7 +163,6 @@ def showscore():
     texttuetle.write("STAGE : " + str(stagecount), align="right", font=("Unispace", 15, "normal"))
 
 
-def targetmove():
 def targetmove1():
     x = target.xcor()
     y = target.ycor()

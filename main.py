@@ -22,25 +22,22 @@ import turtle as t
 import random
 
 def init():
-    # 스크린 객체 생성
-    screen = t.Screen()
-    screen.setup(20*scale,20*scale)
-    # 스크린 배경색 지정
-    screen.bgcolor("black")
-    screen.tracer(2)
+    screen = t.Screen() # 스크린의 객체를 생성합니다.
+    screen.setup(20*scale,20*scale) # 화면의 크기는 지정된 scale의 20배수 픽셀, 정사각형 형태로 설정합니다.
+    screen.bgcolor("black") # 배경의 색상은 black으로 설정합니다.
+    screen.tracer(2) # 즉각적인 실행(빠른 반응속도)를 위해 tracer를 2로 설정합니다.
     return screen
 
 
 def user():
-    # 유저 Shape 추가 (상, 하, 좌, 우 각각의 형상 추가)
+    # 유저 Shape 추가 (상, 하, 좌, 우, 입닫음(팩맨) 각각의 형상 추가)
     t.addshape("images\circle.gif")
     t.addshape("images\packman_0.gif")
     t.addshape("images\packman_90.gif")
     t.addshape("images\packman_180.gif")
     t.addshape("images\packman_270.gif")
-    # 유저 객체 생성
-    turtle = t.Turtle()
-    turtle.shape("images\packman_0.gif")
+    turtle = t.Turtle() # 유저의 객체를 생성합니다.
+    turtle.shape("images\packman_0.gif") # 시작위치에서의 모양은 0도 모양으로 지정합니다.
     return turtle
 
 
@@ -81,20 +78,18 @@ def fence(crossline = True):
 
 
 def texttuetle():
-    # 텍스트 작성 객체 생성
-    texttuetle = t.Turtle()
-    texttuetle.penup()
-    texttuetle.hideturtle()
+    texttuetle = t.Turtle() # 텍스트 작성 객체를 생성합니다.
+    texttuetle.penup() # 객체의 이동경로는 표시하지 않습니다.
+    texttuetle.hideturtle() # 객체의 모양을 지정하지 않습니다.
     return texttuetle
 
 
 def target():
     # 타겟 Shape 추가
     t.addshape("images\ghost.gif")
-    # 타겟 객체 생성
-    target = t.Turtle()
-    target.shape("images\ghost.gif")
-    target.penup()
+    target = t.Turtle() # 타겟의 객체를 생성합니다.
+    target.shape("images\ghost.gif") # 타겟의 모양을 추가한 Spape로 지정합니다.
+    target.penup() # 타겟의 이동경로는 작성하지 않습니다.
     return target
 
 
@@ -156,16 +151,16 @@ def getname():
 
 
 def showscore():
-    texttuetle.clear()
-    texttuetle.penup()
-    texttuetle.hideturtle()
-    texttuetle.setposition(-6 * scale, 6 * scale)
-    texttuetle.color("white")
-    texttuetle.write("SCORE : " + str(tryCount), align="left", font=("Unispace", 15, "normal"))
-    texttuetle.setposition(0, 6 * scale)
-    texttuetle.write("PLAYER : " + player, align="center", font=("Unispace", 15, "normal"))
-    texttuetle.setposition(6 * scale, 6 * scale)
-    texttuetle.write("STAGE : " + str(stagecount), align="right", font=("Unispace", 15, "normal"))
+    texttuetle.clear() # 기존 작성되어 있는 내용을 초기화 합니다.
+    texttuetle.penup() # 객체가 이동하는 경로를 작성하지 않습니다.
+    texttuetle.hideturtle() # 객체의 모양을 지정하지 않습니다.
+    texttuetle.setposition(-6 * scale, 6 * scale) # 텍스트 작성 객체를 x : -6*scale, y : 6*scale 위치로 이동 시킵니다. 해당 함수에선 게임을 진행하는 울타리 좌측상단에 위치합니다.
+    texttuetle.color("white") # 텍스트의 색상을 white로 지정합니다.
+    texttuetle.write("SCORE : " + str(tryCount), align="left", font=("Unispace", 15, "normal")) # 점수를 보여줍니다. 
+    texttuetle.setposition(0, 6 * scale) # 텍스트 작성 객체를 x : 0, y : 6*scale 위치로 이동 시킵니다. 해당 함수에선 게임을 진행하는 울타리 중앙상단에 위치합니다.
+    texttuetle.write("PLAYER : " + player, align="center", font=("Unispace", 15, "normal")) # 입력받은 이름을 보여줍니다.
+    texttuetle.setposition(6 * scale, 6 * scale) # 텍스트 작성 객체를 x : 6*scale, y : 6*scale 위치로 이동 시킵니다. 해당 함수에선 게임을 진행하는 울타리 우측상단에 위치합니다.
+    texttuetle.write("STAGE : " + str(stagecount), align="right", font=("Unispace", 15, "normal")) # 5번의 게임 중, 현재 몇번째 게임을 진행중인지 보여줍니다.
 
 
 def targetmove():

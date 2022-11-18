@@ -23,17 +23,15 @@ import random
 
 
 def init():
-    # 스크린 객체 생성
-    screen = t.Screen()
-    screen.setup(16*scale,16*scale)
-    # 스크린 배경색 지정
-    screen.bgcolor("black")
-    screen.tracer(2)
+    screen = t.Screen() # 스크린 객체 생성
+    screen.setup(16*scale,16*scale) # 화면의 크기는 지정된 scale 의 16배수 픽셀로 설정합니다.
+    screen.bgcolor("black") # 배경을 검은색으로 지정합니다.
+    screen.tracer(2) # 즉각적인 실행 (빠른 반응속도) 를 위해 tracer 을(를) 2로 지정합니다.
     return screen
 
 
 def user():
-    # 유저 Shape 추가 (상, 하, 좌, 우 각각의 형상 추가)
+    # 유저 Shape 추가 (상, 하, 좌, 우, 입닫음(팩맨) 형상 추가)
     t.addshape("images\circle.gif")
     t.addshape("images\packman_0.gif")
     t.addshape("images\packman_90.gif")
@@ -41,7 +39,7 @@ def user():
     t.addshape("images\packman_270.gif")
     # 유저 객체 생성
     turtle = t.Turtle()
-    turtle.shape("images\packman_0.gif")
+    turtle.shape("images\packman_0.gif") # 시작 위치는 0도 해당 모양으로 지정합니다.
     return turtle
 
 

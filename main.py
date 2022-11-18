@@ -45,45 +45,43 @@ def user():
 
 
 def fence(crossline = True):
-    # 울타리 그리기
-    fence = t.Turtle()
-    fence.penup()
-    fence.hideturtle()
-    fence.setposition(-5.5*scale, -5.5*scale)
-    fence.color("blue")
-    fence.pendown()
-    fence.pensize(4)
-    for x in range(4):
-        fence.forward(11*scale)
-        fence.left(90)
-    fence.penup()
-    fence.hideturtle()
-    fence.setposition(-5.7 * scale, -5.7 * scale)
-    fence.color("blue")
-    fence.pendown()
-    fence.pensize(2)
-    for x in range(4):
-        fence.forward(11.4 * scale)
-        fence.left(90)
-    if crossline:
-        fence.color("midnightBlue")
-        fence.pensize(1)
-        for i in range(10):
-            fence.penup()
-            fence.goto(-5.5 * scale, (i - 4.5) * scale)
-            fence.pendown()
-            fence.goto(+5.5 * scale, (i - 4.5) * scale)
-            fence.penup()
+    fence = t.Turtle() # 펜스 작성 객체를 생성합니다.
+    fence.penup() # 객체가 시작점에 위치하지 않으므로 작성을 중지합니다.
+    fence.hideturtle() # 벽면을 그릴 객체의 모습을 숨깁니다.
+    fence.setposition(-5.5*scale, -5.5*scale) # 내벽의 작성을 위해 객체를 시작점으로 옮깁니다.
+    fence.color("blue") # 선의 색상을 blue으로 지정합니다.
+    fence.pendown() # 작성을 시작합니다.
+    fence.pensize(4) # 선의 두께를 4로 지정합니다.
+    for x in range(4): # 해당 반복문은 x = 0 ~ 3까지 총 4회 반복합니다.
+        fence.forward(11*scale) # 한쪽 벽면을 작성합니다. 벽의 크기는 지정된 scale*11 픽셀 입니다.
+        fence.left(90) # 한쪽벽의 작성이 완료되었으므로 다음벽을 작성하기 위해 방향을 90도 회전합니다. 반복을 통해 사각형 모양의 벽면이 생성됩니다.
+    fence.penup() # 작성을 중지합니다.
+    fence.setposition(-5.7 * scale, -5.7 * scale) # 외벽을 작성하기 위해 시작점으로 객체를 옮깁니다.
+    fence.pendown() # 작성을 시작합니다.
+    fence.pensize(2) # 선의 두께를 2로 변경합니다.
+    for x in range(4): # 해당 반복문은 x = 0 ~ 3까지 총 4회 반복합니다.
+        fence.forward(11.4 * scale) # 한쪽 벽면을 작성합니다. 벽의 크기는 지정된 scale*11.4 픽셀 입니다.
+        fence.left(90) # 한쪽벽의 작성이 완료되었으므로 다음벽을 작성하기 위해 방향을 90도 회전합니다. 반복을 통해 사각형 모양의 벽면이 생성됩니다.
+    if crossline: # corssline의 상태를 확인합니다. 값을 따로 지정해주지 않을 경우, 초기값은 True 이므로 해당 조건문을 실행합니다.
+        fence.color("midnightBlue") # 선의 색상을 midnightBlue로 변경합니다.
+        fence.pensize(1) # 선의 두께를 1로 변경합니다.
+        for i in range(10): # 해당 반복문은 i = 0 ~ 9까지 총 10회 반복합니다.
+            fence.penup() # 객체가 시작점에 위치하지 않으므로 작성을 중지합니다.
+            fence.goto(-5.5 * scale, (i - 4.5) * scale) # 객체를 시작점으로 옮깁니다. 객체의 x좌표는 고정되있고, y좌표는 10회의 반복동안 -4.5*scale ~ 4.5*scale 로 scale만큼 변경됩니다.
+            fence.pendown() # 작성을 시작합니다.
+            fence.goto(+5.5 * scale, (i - 4.5) * scale) # 객체를 마지막점으로 옮깁니다. 이동경로가 작성되고 있는 상태이므로 -5.5*scale ~ +5.5*scale의 가로선이 작성됩니다.
+            fence.penup() # 작성을 중지합니다.
 
-        for i in range(10):
-            fence.penup()
-            fence.goto((i - 4.5) * scale, -5.5 * scale)
-            fence.pendown()
-            fence.goto((i - 4.5) * scale, +5.5 * scale)
-            fence.penup()
+        for i in range(10): # 해당 반복문은 i = 0 ~ 9까지 총 10회 반복합니다.
+            fence.penup() # 객체가 시작점에 위치하지 않으므로 작성을 중지합니다.
+            fence.goto((i - 4.5) * scale, -5.5 * scale) # 객체를 시작점으로 옮깁니다. 객체의 y좌표는 고정되있고, x좌표는 10회의 반복동안 -4.5*scale ~ 4.5*scale 로 scale만큼 변경됩니다.
+            fence.pendown() # 작성을 시작합니다.
+            fence.goto((i - 4.5) * scale, +5.5 * scale) # 객체를 마지막점으로 옮깁니다. 이동경로가 작성되고 있는 상태이므로 -5.5*scale ~ +5.5*scale 픽셀의 세로선이 작성됩니다.
+            fence.penup() # 작성을 중지합니다.
 
 
 def texttuetle():
+    # 텍스트 작성 객체 생성
     texttuetle = t.Turtle()
     texttuetle.penup()
     texttuetle.hideturtle()
@@ -101,60 +99,60 @@ def target():
 
 
 def move_right():
-    if user.xcor() >= 5*scale:
-        user.setx(5*scale)
-        return
-    global tryCount
-    tryCount -= 1
-    user.setheading(0)
-    user.shape("images\packman_0.gif")
-    global beforemove
-    beforemove = 0
-    user.forward(1*scale)
+    if user.xcor() >= 5*scale: # 유저의 x좌표 위치가 5*scale 이상일 경우,
+        user.setx(5*scale) # x좌표 위치를 5*scale로 고정하고
+        return # 시도횟수를 감소시키지 않으며 x좌표를 이동시키지 않고 함수를 종료합니다.
+    global tryCount # trycount 변수의 값을 변경하기 위해 전역변수로 선언합니다.
+    tryCount -= 1 # 시도횟수를 1 감소시킵니다.
+    user.setheading(0) # 유저의 이동방향을 0도 위치로 지정합니다.
+    user.shape("images\packman_0.gif") # 유저의 모양을 0도 모양으로 지정합니다.
+    global beforemove # beforemove 변수의 값을 변경하기 위해 전역변수로 선언합니다.
+    beforemove = 0 # beforemove의 값을 0으로 변경합니다. beforemove는 유저(팩맨)의 상태변경(입 열고닫음)에 사용됩니다.
+    user.forward(1*scale) # 지정된 이동방향으로 scale 만큼 전진합니다.
 
 
 def move_left():
-    if user.xcor() <= -5*scale:
-        user.setx(-5 * scale)
-        return
-    global tryCount
-    tryCount -= 1
-    user.setheading(180)
-    user.shape("images\packman_180.gif")
-    global beforemove
-    beforemove = 180
-    user.forward(1*scale)
+    if user.xcor() <= -5*scale: # 유저의 x좌표 위치가 -5*scale 이하일 경우,
+        user.setx(-5 * scale) # x좌표 위치를 -5*scale로 고정하고
+        return # 시도횟수를 감소시키지 않으며 x좌표를 이동시키지 않고 함수를 종료합니다.
+    global tryCount # trycount 변수의 값을 변경하기 위해 전역변수로 선언합니다.
+    tryCount -= 1 # 시도횟수를 1 감소시킵니다.
+    user.setheading(180) # 유저의 이동방향을 180도 위치로 지정합니다.
+    user.shape("images\packman_180.gif") # 유저의 모양을 180도 모양으로 지정합니다.
+    global beforemove # beforemove 변수의 값을 변경하기 위해 전역변수로 선언합니다.
+    beforemove = 180 # beforemove의 값을 180으로 변경합니다. beforemove는 유저(팩맨)의 상태변경(입 열고닫음)에 사용됩니다.
+    user.forward(1*scale) # 지정된 이동방향으로 scale 만큼 전진합니다.
 
 
 def move_up():
-    if user.ycor() >= 5*scale:
-        user.sety(5 * scale)
-        return
-    global tryCount
-    tryCount -= 1
-    user.setheading(90)
-    user.shape("images\packman_90.gif")
-    global beforemove
-    beforemove = 90
-    user.forward(1*scale)
+    if user.ycor() >= 5*scale: # 유저의 y좌표 위치가 5*scale 이상일 경우,
+        user.sety(5 * scale) # y좌표 위치를 5*scale로 고정하고
+        return  # 시도횟수를 감소시키지 않으며 y좌표를 이동시키지 않고 함수를 종료합니다.
+    global tryCount # trycount 변수의 값을 변경하기 위해 전역변수로 선언합니다.
+    tryCount -= 1 # 시도횟수를 1 감소시킵니다.
+    user.setheading(90) # 유저의 이동방향을 90도 위치로 지정합니다.
+    user.shape("images\packman_90.gif") # 유저의 모양을 90도 모양으로 지정합니다.
+    global beforemove # beforemove 변수의 값을 변경하기 위해 전역변수로 선언합니다.
+    beforemove = 90 # beforemove의 값을 90으로 변경합니다. beforemove는 유저(팩맨)의 상태변경(입 열고닫음)에 사용됩니다.
+    user.forward(1*scale) # 지정된 이동방향으로 scale 만큼 전진합니다.
 
 
 def move_down():
-    if user.ycor() <= -5*scale:
-        user.sety(-5 * scale)
-        return
-    global tryCount
-    tryCount -= 1
-    user.setheading(270)
-    user.shape("images\packman_270.gif")
-    global beforemove
-    beforemove = 270
-    user.forward(1*scale)
+    if user.ycor() <= -5*scale: # 유저의 y좌표 위치가 -5*scale 이하일 경우,
+        user.sety(-5 * scale) # y좌표 위치를 -5*scale로 고정하고
+        return  # 시도횟수를 감소시키지 않으며 y좌표를 이동시키지 않고 함수를 종료합니다.
+    global tryCount # trycount 변수의 값을 변경하기 위해 전역변수로 선언합니다.
+    tryCount -= 1 # 시도횟수를 1 감소시킵니다.
+    user.setheading(270) # 유저의 이동방향을 270도 위치로 지정합니다.
+    user.shape("images\packman_270.gif") # 유저의 모양을 270도 모양으로 지정합니다.
+    global beforemove # beforemove 변수의 값을 변경하기 위해 전역변수로 선언합니다.
+    beforemove = 270 # beforemove의 값을 270으로 변경합니다. beforemove는 유저(팩맨)의 상태변경(입 열고닫음)에 사용됩니다.
+    user.forward(1*scale) # 지정된 이동방향으로 scale 만큼 전진합니다.
 
 
 def getname():
-    name = t.textinput("터틀게임", "플레이어 이름을 입력하세요")
-    return name
+    name = t.textinput("터틀게임", "플레이어 이름을 입력하세요") # 유저의 이름을 입력 받습니다.
+    return name # 입력받은 이름을 return 합니다.
 
 
 def showscore():

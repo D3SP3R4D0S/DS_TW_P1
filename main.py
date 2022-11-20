@@ -20,6 +20,7 @@ import math
 import time
 import turtle as t
 import random
+import winsound
 
 
 def init():
@@ -146,6 +147,16 @@ def move_down():
     user.forward(1*scale) # 지정된 이동방향으로 scale 만큼 전진합니다.
 
 
+def playsound(game_stat):
+    # 각각의 상태 (게임시작, 팩맨 입 열고닫음, 타겟 도달)에 대한 소리재생 정의
+    if (game_stat == 0):
+        winsound.PlaySound("sounds\pacman_beginning.wav", winsound.SND_ASYNC)
+    elif (game_stat == 1):
+        winsound.PlaySound("sounds\pacman_chomp.wav", winsound.SND_ASYNC) # 현재 미사용
+    elif (game_stat == 2):
+        winsound.PlaySound("sounds\pacman_eatghost.wav", winsound.SND_ASYNC)
+
+
 def getname():
     name = t.textinput("터틀게임", "플레이어 이름을 입력하세요") # 유저의 이름을 입력 받습니다.
     return name # 입력받은 이름을 return 합니다.
@@ -231,6 +242,8 @@ def gameturn():
             changedtime = time.time() # 유저의 상태변경이 끝남을 선언합니다.
             userstat = 1 # 유저가 입벌림 상태임을 확인합니다.
         if user.distance(target) < 1 or tryCount == 0: # 유저가 타겟에 도달하거나, 주어진 시도횟수(100회)를 모두 소진 했을 경우
+            playsound(2) # 타겟도달사운드를 재생합니다.
+            time.sleep(0.3)
             user.reset() # 유저를 초기화 하고
             screen.reset() # 스크린을 초기화 하고
             target.reset() # 타겟을 초기화 하고
@@ -334,6 +347,7 @@ if __name__ == '__main__': # 메인함수
     texttuetle = texttuetle() # 텍스트 작성 객체 선언 함수를 실행합니다.
     while True:
         while stagecount < 5: # 총 다섯번의 게임이 이루어 지도록 반복문을 실행합니다.
+            playsound(0) # 팩맨 초기화면사운드를 재생합니다.
             player = getname().upper() # 유저의 이름을 저장합니다. 유저의 이름은 항상 대문자로 입력됩니다.
             score = gameturn() # 게임을 실행하고 리턴받은 시도횟수를 저장 합니다.
             scores.append([player, score]) # 선언된 배열에 유저이름과 점수를 저장합니다.

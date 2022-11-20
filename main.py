@@ -172,7 +172,7 @@ def showscore():
     texttuetle.setposition(0, 6 * scale) # 텍스트 작성 객체를 x : 0, y : 6*scale 위치로 이동 시킵니다. 해당 함수에선 게임을 진행하는 울타리 중앙상단에 위치합니다.
     texttuetle.write("PLAYER : " + player, align="center", font=("Unispace", 15, "normal")) # 입력받은 이름을 보여줍니다.
     texttuetle.setposition(6 * scale, 6 * scale) # 텍스트 작성 객체를 x : 6*scale, y : 6*scale 위치로 이동 시킵니다. 해당 함수에선 게임을 진행하는 울타리 우측상단에 위치합니다.
-    texttuetle.write("STAGE : " + str(stagecount), align="right", font=("Unispace", 15, "normal")) # 5번의 게임 중, 현재 몇번째 게임을 진행중인지 보여줍니다.
+    texttuetle.write("STAGE : " + str(stagecount + 1), align="right", font=("Unispace", 15, "normal")) # 5번의 게임 중, 현재 몇번째 게임을 진행중인지 보여줍니다.
 
 
 def targetmove():

@@ -21,9 +21,10 @@ import time
 import turtle as t
 import random
 
+
 def init():
-    screen = t.Screen() # 스크린의 객체를 생성합니다.
-    screen.setup(20*scale,20*scale) # 화면의 크기는 지정된 scale의 20배수 픽셀, 정사각형 형태로 설정합니다.
+    screen = t.Screen() # 스크린 객체 생성
+    screen.setup(16*scale,16*scale) # 화면의 크기는 지정된 scale 의 16배수 픽셀로 설정합니다.
     screen.bgcolor("black") # 배경의 색상은 black으로 설정합니다.
     screen.tracer(2) # 즉각적인 실행(빠른 반응속도)를 위해 tracer를 2로 설정합니다.
     return screen
